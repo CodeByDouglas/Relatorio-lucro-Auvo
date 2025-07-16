@@ -1,19 +1,14 @@
 from app import db
 from datetime import datetime
+import uuid
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    token_api = db.Column(db.String(255), nullable=True)
+    token_autenticacao = db.Column(db.String(255), nullable=True)
+    horario_da_ultima_autenticacao = db.Column(db.DateTime, nullable=True)
+    
     
     def __repr__(self):
         return f'<User {self.username}>'
     
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email,
-            'created_at': self.created_at.isoformat() if self.created_at else None
-        }
