@@ -7,6 +7,7 @@ class Faturamento_total(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     valor = db.Column(db.Float, nullable=False)
+    porcentagem_total_faturamento = db.Column(db.Float, nullable=False)
 
 class Lucro_total(db.Model):
     __tablename__ = 'lucro_total'
