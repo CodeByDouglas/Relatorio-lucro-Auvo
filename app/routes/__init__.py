@@ -1,3 +1,3 @@
-from . import main
+from . import login, dashboard, relatorio_detalhado
 
-__all__ = ['main']
+__all__ = ['login', 'dashboard', 'relatorio_detalhado']
