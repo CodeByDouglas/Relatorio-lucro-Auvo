@@ -2,7 +2,7 @@ import requests
 import json
 from urllib.parse import urlencode
 
-def request_tarefas_auvo(token_autenticacao, page, start_date, end_date, status, id_user_to, type):
+def request_tarefas_auvo(token_autenticacao, page, start_date, end_date, status, type):
     """
     Faz requisição para listar tarefas da API da Auvo
     
@@ -24,7 +24,6 @@ def request_tarefas_auvo(token_autenticacao, page, start_date, end_date, status,
         "startDate": start_date,
         "endDate": end_date,
         "status": status,
-        "idUserTo": id_user_to,
         "type": type
     }
     

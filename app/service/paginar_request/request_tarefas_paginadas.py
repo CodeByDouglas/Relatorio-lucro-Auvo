@@ -1,14 +1,13 @@
 from app.Api.request_tarefas import request_tarefas_auvo
 
 
-def paginar_respostas_request_tarefas(data_inicial, data_final, id_do_colaborador, id_tipo_de_tarefa, status, page, token_autenticacao):
+def request_tarefas_paginadas(data_inicial, data_final, id_tipo_de_tarefa, status, page, token_autenticacao):
     """
     Função para paginar respostas da API de tarefas da Auvo
     
     Args:
         data_inicial (str): Data inicial no formato yyyy-mm-dd
         data_final (str): Data final no formato yyyy-mm-dd
-        id_do_colaborador (int): ID do colaborador
         id_tipo_de_tarefa (int): ID do tipo de tarefa
         status (int): Status da tarefa
         page (int): Número da página inicial
@@ -29,7 +28,6 @@ def paginar_respostas_request_tarefas(data_inicial, data_final, id_do_colaborado
             start_date=data_inicial,
             end_date=data_final,
             status=status,
-            id_user_to=id_do_colaborador,
             type=id_tipo_de_tarefa
         )
         

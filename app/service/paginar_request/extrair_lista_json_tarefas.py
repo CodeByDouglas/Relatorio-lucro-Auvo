@@ -1,7 +1,7 @@
 from app.service.extrair_dados.extrair_json_tarefas import extrair_json_tarefas
 
 
-def formatando_lista_json(lista_respostas, allowed_products, allowed_services):
+def extrair_lista_json_tarefas(lista_respostas, allowed_products, allowed_services):
     """
     Função que processa uma lista de respostas e formata cada uma usando extrair_json_tarefas
     
