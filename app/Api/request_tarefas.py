@@ -2,7 +2,7 @@ import requests
 import json
 from urllib.parse import urlencode
 
-def listar_tarefas_auvo(token_autenticacao, page, start_date, end_date, status, id_user_to, type):
+def request_tarefas_auvo(token_autenticacao, page, start_date, end_date, status, id_user_to, type):
     """
     Faz requisição para listar tarefas da API da Auvo
     
@@ -50,7 +50,7 @@ def listar_tarefas_auvo(token_autenticacao, page, start_date, end_date, status, 
             return response.json()
         elif response.status_code == 404:
             # Tarefas não encontradas
-            return None
+            return 404
         elif response.status_code == 401:
             # User não autenticado
             return None

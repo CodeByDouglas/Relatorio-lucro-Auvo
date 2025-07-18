@@ -1,7 +1,7 @@
 import requests
 import json
 
-def listar_produtos_auvo(token_autenticacao):
+def request_produtos_auvo(token_autenticacao):
     """
     Faz requisição para listar produtos da API da Auvo
     

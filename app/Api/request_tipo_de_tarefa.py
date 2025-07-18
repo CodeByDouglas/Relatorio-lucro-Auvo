@@ -1,7 +1,7 @@
 import requests
 import json
 
-def listar_tipos_de_tarefa_auvo(token_autenticacao):
+def request_tipos_de_tarefa_auvo(token_autenticacao):
     """
     Faz requisição para listar tipos de tarefa da API da Auvo
     
