@@ -21,10 +21,12 @@ def create_app(config_name=None):
     from app.routes.login import login_bp
     from app.routes.dashboard_geral import dashboard_bp
     from app.controller.login.logar import login_bp as controller_login_bp
+    from app.controller.sync.sync_controler import sync_bp
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(controller_login_bp)
+    app.register_blueprint(sync_bp)
     
     # Criação das tabelas se não existirem
     with app.app_context():

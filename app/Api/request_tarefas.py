@@ -22,9 +22,11 @@ def request_tarefas_completa(accessToken, start_date, end_date, taskTypes):
         param_filter = {
             "startDate": start_date,
             "endDate": end_date,
-            "status": 3,
-            "taskTypes": taskTypes
+            "status": 3
         }
+        
+        if taskTypes is not None:
+            param_filter["taskTypes"] = taskTypes
 
         base_url = "https://api.auvo.com.br/v2/tasks/"
         params = {
