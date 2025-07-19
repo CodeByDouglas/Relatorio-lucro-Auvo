@@ -1,12 +1,12 @@
 import requests
 import json
 
-def request_servicos_auvo(token_autenticacao):
+def request_servicos_auvo(accessToken):
     """
     Faz requisição para listar serviços da API da Auvo
     
     Args:
-        token_autenticacao (str): Token de autenticação para usar no header Authorization
+        accessToken (str): Token de autenticação para usar no header Authorization
         
     Returns:
         dict: Resposta completa do endpoint em caso de sucesso
@@ -16,7 +16,7 @@ def request_servicos_auvo(token_autenticacao):
     
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'Bearer {token_autenticacao}'
+        'Authorization': f'Bearer {accessToken}'
     }
     
     try:

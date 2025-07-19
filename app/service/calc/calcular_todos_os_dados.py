@@ -38,7 +38,7 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
     porc_lucro_servico = calcular_porcentagem_lucro_servico(lucro_servico, lucro_total)
     porc_lucro_faturamento = calcular_porcentagem_lucro_faturamento(lucro_total, faturamento_total)
     
-    resultado = {
+    dado_calculados = {
         'valores': {
             'faturamento_total': faturamento_total,
             'faturamento_produto': faturamento_produto,
@@ -57,4 +57,4 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
         }
     }
     
-    return resultado
+    return dado_calculados

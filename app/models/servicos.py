@@ -2,12 +2,12 @@ from app import db
 from datetime import datetime
 import json
 
-class Produtos(db.Model):
+class Servicos(db.Model):
     __tablename__ = 'servicos'
     
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    listagem_servico = db.Column(db.JSON, nullable=True)
+    json_lista_servicos = db.Column(db.JSON, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     

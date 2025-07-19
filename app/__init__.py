@@ -19,12 +19,10 @@ def create_app(config_name=None):
     
     # Registro das rotas
     from app.routes.login import login_bp
-    from app.routes.dashboard import dashboard_bp
-    from app.routes.relatorio_detalhado import relatorio_detalhado_bp
+    from app.routes.dashboard_geral import dashboard_bp
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
-    app.register_blueprint(relatorio_detalhado_bp)
     
     # Criação das tabelas se não existirem
     with app.app_context():
