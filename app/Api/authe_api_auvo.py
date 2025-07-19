@@ -24,15 +24,21 @@ def autenticar_api_auvo(api_key, api_token):
         
         if response.status_code == 200:
             data = response.json()
-            return data.get('result', {}).get('accessToken')
-        elif response.status_code == 404:
-            # Resource with the specified apiKey does not exist
-            return None
+            print(data)
+            result = data.get('result')
+            authenticated = result.get('authenticated')
+            if authenticated == True:
+                expiration = result.get('expiration')
+                accessToken = result.get('accessToken')
+                return response.status_code, authenticated, expiration, accessToken #Autenticado com sucesso
+            else:
+                return response.status_code, authenticated #Requisição recebida dados incorretos
         elif response.status_code == 400:
-            # Invalid options, not passing the apiKey parameter
-            return None
+            return response.status_code, #api_key e api_token são necessários
+        elif response.status_code == 500:
+            return response.status_code #Erro interno
         else:
-            return None
+            return response.status_code, None #Erro desconhecido 
             
     except requests.exceptions.RequestException:
-        return None
+        return None, None

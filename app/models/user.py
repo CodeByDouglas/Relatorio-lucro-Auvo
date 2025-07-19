@@ -7,7 +7,7 @@ class User(db.Model):
     api_key = db.Column(db.String(255), nullable=True)
     api_token = db.Column(db.String(255), nullable=True)
     accessToken = db.Column(db.String(255), nullable=True)
-    horario_da_ultima_autenticacao = db.Column(db.DateTime, nullable=True)
+    expiracao = db.Column(db.DateTime, nullable=True)
     
     
     def __repr__(self):

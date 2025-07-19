@@ -1,3 +1,3 @@
-from . import dashboard_geral, login, relatorio_detalhado
+from . import dashboard_geral, login
 
 __all__ = ['login', 'dashboard_geral']
