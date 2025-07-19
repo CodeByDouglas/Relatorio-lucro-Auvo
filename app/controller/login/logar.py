@@ -43,5 +43,6 @@ def logar():
         else:
             return jsonify({"message": "erro interno"}), 500
         
-        # Implementação pendente
+        # Implementação pendente, chamar a função sync quando estiver diponivel para sincronizar 
+        # os dados com uma configuração padrão antes do user ser redirecionado para o dashboard. 
         pass
