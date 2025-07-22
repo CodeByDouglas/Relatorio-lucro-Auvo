@@ -3,7 +3,8 @@ from flask import Blueprint
 from app.models.user import User
 from app.Api.authe_api_auvo import autenticar_api_auvo
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
+from app.controller.sync.def_sync import sync
 
 login_bp = Blueprint('login_controller', __name__)
 
@@ -20,7 +21,6 @@ def logar():
                 expiration = resultado[2]
                 accessToken = resultado[3]
                 
-                # Converte a string que vem em expiration para objeto datetime
                 expiration_datetime = datetime.strptime(expiration, '%Y-%m-%d %H:%M:%S')
                 user = User.query.filter_by(api_key=api_key).first()
                 if user:
@@ -28,12 +28,36 @@ def logar():
                     user.accessToken = accessToken
                     user.expiracao = expiration_datetime
                     db.session.commit()
-                    return jsonify({"message": "Usuario atualizado com sucesso"}), 200
+                    
+                    # Chamada da função sync
+                    hoje = datetime.now().date()
+                    ontem = hoje - timedelta(days=1)
+                    start_date = ontem.strftime('%Y-%m-%d')
+                    end_date = hoje.strftime('%Y-%m-%d')
+                    
+                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date)
+                    
+                    if resultado_sync[0] == False:
+                        return jsonify({"message": resultado_sync[1]}), 400
+                    else:
+                        return jsonify({"message": "Usuario atualizado com sucesso"}), 200
                 else:
                     user = User(api_key=api_key, api_token=api_token, accessToken=accessToken, expiracao=expiration_datetime)
                     db.session.add(user)
                     db.session.commit()
-                    return jsonify({"message": "Usuario criado com sucesso"}), 200
+                    
+                    # Chamada da função sync
+                    hoje = datetime.now().date()
+                    ontem = hoje - timedelta(days=1)
+                    start_date = ontem.strftime('%Y-%m-%d')
+                    end_date = hoje.strftime('%Y-%m-%d')
+                    
+                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date)
+                    
+                    if resultado_sync[0] == False:
+                        return jsonify({"message": resultado_sync[1]}), 400
+                    else:
+                        return jsonify({"message": "Usuario criado com sucesso"}), 200
             else:
                 return jsonify({"message": "Credenciais invalidas"}), 401
         elif resultado[0] == 400:
@@ -42,7 +66,3 @@ def logar():
             return jsonify({"message": "não foi possivel se conectar a api AUVO"}), 500
         else:
             return jsonify({"message": "erro interno"}), 500
-        
-        # Implementação pendente, chamar a função sync quando estiver diponivel para sincronizar 
-        # os dados com uma configuração padrão antes do user ser redirecionado para o dashboard. 
-        pass
