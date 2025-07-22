@@ -2,7 +2,6 @@ from app import db
 from app.models.produtos import Produtos
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
-import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -25,15 +24,13 @@ def salvar_ou_atualizar_produtos(user_id, json_lista_produtos):
         
         if produto_existente:
             # Atualiza produto existente
-            produto_existente.json_lista_produtos = json.dumps(json_lista_produtos)
+            produto_existente.json_lista_produtos = json_lista_produtos
             produto_existente.updated_at = datetime.now()
         else:
             # Cria novo produto
             novo_produto = Produtos(
                 user_id=user_id,
-                json_lista_produtos=json.dumps(json_lista_produtos),
-                created_at=datetime.now(),
-                updated_at=datetime.now()
+                json_lista_produtos=json_lista_produtos
             )
             db.session.add(novo_produto)
         

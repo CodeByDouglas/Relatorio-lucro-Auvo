@@ -33,8 +33,6 @@ def salvar_ou_atualizar_servicos(user_id, json_lista_servicos):
                 user_id=user_id,
                 json_lista_servicos=json_lista_servicos
             )
-            novo_servico.created_at = datetime.now()
-            novo_servico.updated_at = datetime.now()
             db.session.add(novo_servico)
         
         db.session.commit()

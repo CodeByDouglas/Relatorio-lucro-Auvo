@@ -16,7 +16,7 @@ from app.service.calc.calcular_todos_os_dados import calcular_todos_os_valores
 
 def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date):
     
-    # Chamar API de produtos
+    # Chama a Api de produtos e atualiza o banco.
     request_produtos = request_produtos_auvo(accessToken)
     if request_produtos is None:
         return False, "API de produtos falhou"
@@ -24,7 +24,7 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         produtos = extrair_lista_produtos(request_produtos)
         salvar_ou_atualizar_produtos(user_id, produtos)
     
-    # Chamar API de serviços
+    # Chama a Api de serviços e atualiza o banco.
     request_servicos = request_servicos_auvo(accessToken)
     if request_servicos is None:
         return False, "API de servicos falhou"
@@ -32,7 +32,7 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         servicos = extrair_lista_servicos(request_servicos)
         salvar_ou_atualizar_servicos(user_id, servicos)    
     
-    # Chamar API de tipos de tarefa
+    # Chama a Api de tipos de tarefa e atualiza o banco.
     request_tipos_de_tarefa = request_tipos_de_tarefa_auvo(accessToken)
     if request_tipos_de_tarefa is None:
         return False, "API de tipos de tarefa falhou"
@@ -40,45 +40,56 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         tipos_de_tarefa = extrair_tipos_de_tarefa(request_tipos_de_tarefa)
         salvar_ou_atualizar_tipos_de_tarefa(user_id, tipos_de_tarefa)
     
-    
+    #Pega a listagem de dos Id de produtos que tem armazenado para só contar produtos que esteja ativos no sistema. 
     filtro_listagem_id_produtos = [produto['id-produto'] for produto in produtos]
     
-    
+    #Pega a listagem de dos Id de serviço que tem armazenado para só contar serviços que esteja ativos no sistema. 
     filtro_listagem_id_servicos = [servico['id-servico'] for servico in servicos]
-    
+
+    #Verifica se está tem algum produto sento filtrado e atualiza os ids de filtro.
     if not(id_produto is None):
         if id_produto in filtro_listagem_id_produtos: 
             filtro_listagem_id_produtos = [id_produto]
         else:
             return False, "O Produto filtrado foi excluido do sistema"
     
+    #Verifica se está tem algum serviço sento filtrado e atualiza os ids de filtro.
     if not(id_servico is None):
         if id_servico in filtro_listagem_id_servicos: 
             filtro_listagem_id_servicos = [id_servico]
         else:
             return False, "O Serviço filtrado foi excluido do sistema"
-        
+    
+    #Faz chama a API que busca as tarefas com os filtros aplicados.
     request_tarefas = request_tarefas_completa(accessToken, start_date, end_date, id_tipo_de_tarefa)
-    if request_tarefas is None:
+
+    #Verifica se as tarefas foram encontradas.
+    if request_tarefas == []:
         return False, "Falha ao buscar tarefas"
     else:
+        #Chama a função que faz a extração dos dados inportantes da resposta do endpoint de tarefas. 
         tarefas_e_dados = extrair_lista_dados_tarefas(request_tarefas, filtro_listagem_id_produtos, filtro_listagem_id_servicos)
-        tarefas = tarefas_e_dados["dados_extraitos"][0]["tarefas"]
+        
+        #Separa as tarefas obtidas e já salva no banco.
+        tarefas = tarefas_e_dados["dados_extraidos"][0]["tarefas"]
         salvar_ou_atualizar_tarefas(user_id, tarefas)
 
-        litagen_id_produtos_tarefas = tarefas_e_dados["dados_extraitos"][0]["produtoID"]
+        #Obtem a lista de produtos utilizados no calculo.
+        litagen_id_produtos_tarefas = tarefas_e_dados["dados_extraidos"][0]["produtoID"]
 
-        faturamento_produtos = tarefas_e_dados["dados_extraitos"][0]["faturamento-produtos"]
+        #Obtem do Json formatado as informações calculadas de faturamento. 
+        faturamento_produtos = tarefas_e_dados["dados_extraidos"][0]["faturamento-produtos"]
 
-        faturamento_servicos = tarefas_e_dados["dados_extraitos"][0]["faturamento-servicos"]
+        faturamento_servicos = tarefas_e_dados["dados_extraidos"][0]["faturamento-servicos"]
 
+        #Passa a listagem de ids utilizados do calculo e lista dos ids de produto com seus valores de custo obtendo o custo total dos produtos. 
         custo_dos_produtos = calcular_custo_produtos(litagen_id_produtos_tarefas, produtos)
 
+        #Chama a função que faz o calculo de todos os dados necessarios e salva eles no banco de dados.
         dados_calculados = calcular_todos_os_valores(faturamento_produtos, faturamento_servicos, custo_dos_produtos)
-
         salvar_ou_atualizar_dados_calculados(user_id, dados_calculados)
 
-        return True
+        return True, "Sincronização realizada com sucesso"
 
 
         

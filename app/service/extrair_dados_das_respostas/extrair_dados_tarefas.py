@@ -99,7 +99,7 @@ def extrair_lista_dados_tarefas(api_responses, filtro_listagem_id_produtos, filt
             fatur_total_serv += fatur_serv_local
 
     return {
-        "dados_extraitos": [
+        "dados_extraidos": [
             {
                 "tarefas": estrutura_tarefas,
                 "produtoID": produto_ids_acumulados,

@@ -33,8 +33,6 @@ def salvar_ou_atualizar_tipos_de_tarefa(user_id, json_lista_tipos_de_tarefas):
                 user_id=user_id,
                 json_lista_tipos_de_tarefas=json_lista_tipos_de_tarefas
             )
-            novos_tipos.created_at = datetime.now()
-            novos_tipos.updated_at = datetime.now()
             db.session.add(novos_tipos)
         
         db.session.commit()

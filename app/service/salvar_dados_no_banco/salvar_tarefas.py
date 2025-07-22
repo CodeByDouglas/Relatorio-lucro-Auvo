@@ -33,8 +33,6 @@ def salvar_ou_atualizar_tarefas(user_id, json_lista_tarefas):
                 user_id=user_id,
                 json_lista_tarefas=json_lista_tarefas
             )
-            novas_tarefas.created_at = datetime.now()
-            novas_tarefas.updated_at = datetime.now()
             db.session.add(novas_tarefas)
         
         db.session.commit()

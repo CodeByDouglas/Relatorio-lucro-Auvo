@@ -14,7 +14,6 @@ def sync_endpoint():
         id_tipo_de_tarefa = request.json.get('id_tipo_de_tarefa')
         start_date = request.json.get('start_date')
         end_date = request.json.get('end_date')
-        
         resultado = check_auth(api_key)
         
         if resultado[0] == False:

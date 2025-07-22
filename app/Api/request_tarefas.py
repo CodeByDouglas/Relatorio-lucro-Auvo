@@ -2,7 +2,7 @@ import requests
 import json
 from urllib.parse import urlencode
 
-def request_tarefas_completa(accessToken, start_date, end_date, taskTypes):
+def request_tarefas_completa(accessToken, start_date, end_date, type):
     """
     Requisita todas as tarefas da API Auvo dentro de um intervalo de datas com paginação automática.
 
@@ -25,8 +25,9 @@ def request_tarefas_completa(accessToken, start_date, end_date, taskTypes):
             "status": 3
         }
         
-        if taskTypes is not None:
-            param_filter["taskTypes"] = taskTypes
+        if type is not None:
+            param_filter["type"] = type
+        
 
         base_url = "https://api.auvo.com.br/v2/tasks/"
         params = {

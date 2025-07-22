@@ -39,21 +39,29 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
     porc_lucro_faturamento = calcular_porcentagem_lucro_faturamento(lucro_total, faturamento_total)
     
     dado_calculados = {
-        'valores': {
-            'faturamento_total': faturamento_total,
-            'faturamento_produto': faturamento_produto,
-            'faturamento_servico': faturamento_servico,
-            'custo_produto': custo_produto,
-            'lucro_total': lucro_total,
-            'lucro_produto': lucro_produto,
-            'lucro_servico': lucro_servico
+        'Faturamento_total': {
+            'valor': faturamento_total,
+            'porcentagem_faturamento_total': 100.0  # Faturamento total sempre é 100% de si mesmo
         },
-        'porcentagens': {
-            'faturamento_produto': porc_faturamento_produto,
-            'faturamento_servico': porc_faturamento_servico,
-            'lucro_produto': porc_lucro_produto,
-            'lucro_servico': porc_lucro_servico,
-            'lucro_faturamento': porc_lucro_faturamento
+        'Lucro_total': {
+            'valor': lucro_total,
+            'porcentagem_faturamento_total': porc_lucro_faturamento
+        },
+        'Faturamento_produtos': {
+            'valor': faturamento_produto,
+            'porcentagem_faturamento_total': porc_faturamento_produto
+        },
+        'Faturamento_servicos': {
+            'valor': faturamento_servico,
+            'porcentagem_faturamento_total': porc_faturamento_servico
+        },
+        'Lucro_produtos': {
+            'valor': lucro_produto,
+            'porcentagem_lucro_total': porc_lucro_produto
+        },
+        'Lucro_servicos': {
+            'valor': lucro_servico,
+            'porcentagem_lucro_total': porc_lucro_servico
         }
     }
     

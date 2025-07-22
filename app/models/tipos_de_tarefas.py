@@ -14,9 +14,9 @@ class Tipos_de_tarefas(db.Model):
     # Relacionamento com o modelo User
     user = db.relationship('User', backref=db.backref('tipos_de_tarefa', lazy=True))
     
-    def __init__(self, user_id, listagem_tipos_de_tarefa=None):
+    def __init__(self, user_id, json_lista_tipos_de_tarefas=None):
         self.user_id = user_id
-        self.listagem_tipos_de_tarefa = listagem_tipos_de_tarefa or {}
+        self.json_lista_tipos_de_tarefas = json_lista_tipos_de_tarefas or {}
     
     def __repr__(self):
         return f'<Tipos_de_tarefa {self.id} - User {self.user_id}>'

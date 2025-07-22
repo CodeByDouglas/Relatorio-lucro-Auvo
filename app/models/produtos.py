@@ -14,9 +14,9 @@ class Produtos(db.Model):
     # Relacionamento com o modelo User
     user = db.relationship('User', backref=db.backref('produtos', lazy=True))
     
-    def __init__(self, user_id, listagem_produtos=None):
+    def __init__(self, user_id, json_lista_produtos=None):
         self.user_id = user_id
-        self.listagem_produtos = listagem_produtos or {}
+        self.json_lista_produtos = json_lista_produtos or {}
     
     def __repr__(self):
         return f'<Produtos {self.id} - User {self.user_id}>'

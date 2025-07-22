@@ -14,9 +14,9 @@ class Tarefas(db.Model):
     # Relacionamento com o modelo User
     user = db.relationship('User', backref=db.backref('tarefas', lazy=True))
     
-    def __init__(self, user_id, listagem_tarefas=None):
+    def __init__(self, user_id, json_lista_tarefas=None):
         self.user_id = user_id
-        self.listagem_tarefas = listagem_tarefas or {}
+        self.json_lista_tarefas = json_lista_tarefas or {}
     
     def __repr__(self):
         return f'<Tarefas {self.id} - User {self.user_id}>'

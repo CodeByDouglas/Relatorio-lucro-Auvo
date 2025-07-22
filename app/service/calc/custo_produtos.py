@@ -31,8 +31,12 @@ def calcular_custo_produtos(litagen_id_produtos_tarefas, listagem_json_produtos)
     for prod in listagem_json_produtos:
         pid = prod.get('id-produto')
         custo_str = (prod.get('custo-do-produto') or "0").strip()
-        # Remove pontos (milhar) e troca vírgula por ponto
-        custo_norm = re.sub(r'\.', '', custo_str).replace(',', '.')
+        # Remove símbolos de moeda ($, R$, etc) e espaços
+        custo_norm = re.sub(r'[R\$\s]', '', custo_str)  
+        # Remove pontos de milhar (mas mantém ponto decimal no final)
+        custo_norm = re.sub(r'\.(?=\d{3})', '', custo_norm)
+        # Troca vírgula por ponto para decimal
+        custo_norm = custo_norm.replace(',', '.')
         try:
             mapa_custos[pid] = float(custo_norm)
         except (ValueError, TypeError):

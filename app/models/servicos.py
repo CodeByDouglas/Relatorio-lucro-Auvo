@@ -14,9 +14,9 @@ class Servicos(db.Model):
     # Relacionamento com o modelo User
     user = db.relationship('User', backref=db.backref('servico', lazy=True))
     
-    def __init__(self, user_id, listagem_servico=None):
+    def __init__(self, user_id, json_lista_servicos=None):
         self.user_id = user_id
-        self.listagem_servico = listagem_servico or {}
+        self.json_lista_servicos = json_lista_servicos or {}
     
     def __repr__(self):
         return f'<Servico {self.id} - User {self.user_id}>'
