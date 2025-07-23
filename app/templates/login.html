@@ -1,44 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Relatório de Lucros AUVO</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <title>Login - Relatório de Lucros</title>
+    <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
-    <div class="container">
-        <div class="login-card">
-            <div class="logo">
-                <img src="{{ url_for('static', filename='image/logo_auvo_login.png') }}" alt="AUVO Logo">
-            </div>
-            
-            <h1>Digite sua AppKey e token para acessar o relatório de lucros.</h1>
-            
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="appkey">APPKEY</label>
-                    <input type="text" id="appkey" name="appkey" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="token">TOKEN</label>
-                    <input type="text" id="token" name="token" required>
-                </div>
-                
-                <button type="submit" id="consultarBtn">Consultar</button>
-                
-                <div id="loading" class="loading-container" style="display: none;">
-                    <div class="wave">
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                    </div>
-                </div>
-            </form>
+    <div class="background"></div>
+    <div class="login-container">
+        <div class="help-icon">
+            ?
+            <span class="tooltip-text">
+                Para obter as credenciais, acesse o Auvo, clique no nome da sua empresa no canto superior direito e vá até a aba "Integração". Você verá suas credenciais logo abaixo do título "Chaves de integração".
+            </span>
         </div>
+        <div id="message-container"></div>
+        <div id="loading" class="loading-hidden">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <img src="/static/image/logo_auvo_login.png" alt="Logo Auvo" class="logo-auvo">
+        <h1>Digite sua <b>AppKey</b> e token para acessar o relatório de lucros</h1>
+        <form>
+            <div class="inputs-row">
+                <div class="input-group">
+                    <label for="appkey">APPKEY</label>
+                    <input type="text" id="appkey" name="appkey">
+                </div>
+                <div class="input-group">
+                    <label for="token">TOKEN</label>
+                    <input type="text" id="token" name="token">
+                </div>
+            </div>
+            <button type="submit" class="consultar-btn">Consultar</button>
+        </form>
     </div>
-    
-    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script src="/static/js/login.js"></script>
 </body>
 </html>
