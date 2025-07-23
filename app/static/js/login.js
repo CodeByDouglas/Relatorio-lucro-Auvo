@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         showLoading();
         try {
-            const response = await fetch(' https://d22afd3ccd87.ngrok-free.app/logar', {
+            const response = await fetch(' https://6bc486485dab.ngrok-free.app/logar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -42,6 +42,8 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (response.status === 500) {
                 showMessage('Não foi possível se conectar à API Auvo');
             } else if (response.status === 200) {
+                // Salva a api_key no localStorage
+                localStorage.setItem('api_key', appkey);
                 window.location.href = '/dashboard_geral';
             } else {
                 showMessage('Erro inesperado.');

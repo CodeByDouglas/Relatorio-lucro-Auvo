@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Geral</title>
+    <link rel="stylesheet" href="/static/css/dashboard_geral.css">
+</head>
+<body>
+    <header class="header-dashboard">
+        <img src="/static/image/logo_auvo_dashboard.png" alt="Logo Auvo" class="logo-auvo">
+        <nav class="nav-btns">
+            <button class="nav-btn active">GERAL</button>
+            <button class="nav-btn">PRODUTO</button>
+            <button class="nav-btn">SERVIÇO</button>
+        </nav>
+        <button class="export-btn">EXPORTAR EXCEL</button>
+    </header>
+    <div class="dashboard-content">
+        <section class="charts-area">
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-faturamento-total">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-faturamento-total">
+                        <span class="chart-percent" id="percent-faturamento-total">0%</span>
+                    </div>
+                    <div class="chart-title">FATURAMENTO TOTAL</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-faturamento-produto">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-faturamento-produto">
+                        <span class="chart-percent" id="percent-faturamento-produto">0%</span>
+                    </div>
+                    <div class="chart-title">FATURAMENTO PRODUTO</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-faturamento-servico">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-faturamento-servico">
+                        <span class="chart-percent" id="percent-faturamento-servico">0%</span>
+                    </div>
+                    <div class="chart-title">FATURAMENTO SERVIÇO</div>
+                </div>
+            </div>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-lucro-total">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-lucro-total">
+                        <span class="chart-percent" id="percent-lucro-total">0%</span>
+                    </div>
+                    <div class="chart-title">LUCRO TOTAL</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-lucro-produto">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-lucro-produto">
+                        <span class="chart-percent" id="percent-lucro-produto">0%</span>
+                    </div>
+                    <div class="chart-title">LUCRO PRODUTO</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-lucro-servico">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-lucro-servico">
+                        <span class="chart-percent" id="percent-lucro-servico">0%</span>
+                    </div>
+                    <div class="chart-title">LUCRO SERVIÇO</div>
+                </div>
+            </div>
+        </section>
+        <aside class="filters-area">
+            <div class="filters-title">FILTROS</div>
+            <form id="filtros-form">
+                <div class="filter-group">
+                    <label for="data-inicial">Data inicial</label>
+                    <input type="date" id="data-inicial" name="data-inicial">
+                </div>
+                <div class="filter-group">
+                    <label for="data-final">Data final</label>
+                    <input type="date" id="data-final" name="data-final">
+                </div>
+                <div class="filter-group">
+                    <label for="tipo-tarefa">Tipo de tarefa</label>
+                    <input type="text" id="tipo-tarefa" name="tipo-tarefa" placeholder="">
+                </div>
+                <button type="submit" class="consultar-btn">CONSULTAR</button>
+            </form>
+        </aside>
+    </div>
+    <div id="loading" class="loading-hidden">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <script src="/static/js/dashboard_geral.js"></script>
+</body>
+</html>
