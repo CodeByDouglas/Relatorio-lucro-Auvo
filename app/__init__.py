@@ -23,11 +23,14 @@ def create_app(config_name=None):
     from app.controller.login.logar import login_bp as controller_login_bp
     from app.controller.sync.sync_controler import sync_bp
     from app.controller.dashboard.dashboard_geral import dashboard_controller_bp
-    from app.controller.dashboard import dashboard_produtos  # Importa para registrar as rotas
-    from app.controller.dashboard import dashboard_serviços  # Importa para registrar as rotas
+    from app.controller.dashboard import dashboard_produtos  
+    from app.controller.dashboard import dashboard_serviços 
+    from app.controller.dashboard import detalhes_geral  
+    from app.controller.dashboard import detalhes_produtos  
+    from app.controller.dashboard import detalhes_servicos  
     from app.controller.filtro.carregar_filtros_geral import filtro_bp
-    from app.controller.filtro import carregar_filtros_produtos  # Importa para registrar as rotas
-    from app.controller.filtro import carregar_filtros_servicos  # Importa para registrar as rotas
+    from app.controller.filtro import carregar_filtros_produtos  
+    from app.controller.filtro import carregar_filtros_servicos  
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
