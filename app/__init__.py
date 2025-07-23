@@ -25,12 +25,16 @@ def create_app(config_name=None):
     from app.controller.dashboard.dashboard_geral import dashboard_controller_bp
     from app.controller.dashboard import dashboard_produtos  # Importa para registrar as rotas
     from app.controller.dashboard import dashboard_serviços  # Importa para registrar as rotas
+    from app.controller.filtro.carregar_filtros_geral import filtro_bp
+    from app.controller.filtro import carregar_filtros_produtos  # Importa para registrar as rotas
+    from app.controller.filtro import carregar_filtros_servicos  # Importa para registrar as rotas
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(controller_login_bp)
     app.register_blueprint(sync_bp)
     app.register_blueprint(dashboard_controller_bp)
+    app.register_blueprint(filtro_bp)
     
     # Criação das tabelas se não existirem
     with app.app_context():
