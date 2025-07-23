@@ -13,6 +13,24 @@ document.addEventListener('DOMContentLoaded', function() {
         </svg>`;
         document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
     }
+    function definirDatasPadrao() {
+        const hoje = new Date();
+        const ontem = new Date(hoje);
+        ontem.setDate(hoje.getDate() - 1);
+        
+        // Formatar datas para o formato YYYY-MM-DD (padrão do input date)
+        const formatarData = (data) => {
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, '0');
+            const dia = String(data.getDate()).padStart(2, '0');
+            return `${ano}-${mes}-${dia}`;
+        };
+        
+        // Definir valores padrão
+        document.getElementById('data-inicial').value = formatarData(ontem);
+        document.getElementById('data-final').value = formatarData(hoje);
+    }
+    
     async function carregarTiposTarefa() {
         const apiKey = localStorage.getItem('api_key') || '';
         try {
@@ -21,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const tipos = await response.json();
                 const select = document.getElementById('tipo-tarefa');
                 if (select) {
+                    // Salvar o valor atualmente selecionado
+                    const valorAtual = select.value;
+                    
                     // Limpa e adiciona opções
                     select.innerHTML = '<option value="">Todos</option>';
                     tipos.forEach(tipo => {
@@ -29,6 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         opt.textContent = tipo["nome-do-tipo-de-tarefa"];
                         select.appendChild(opt);
                     });
+                    
+                    // Restaurar o valor selecionado se existir
+                    if (valorAtual) {
+                        select.value = valorAtual;
+                    }
                 }
             }
         } catch (e) {
@@ -79,8 +105,72 @@ document.addEventListener('DOMContentLoaded', function() {
             hideLoading();
         }
     }
+    // Event listener para o formulário de filtros
+    document.getElementById('filtros-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // Capturar valores dos campos
+        const dataInicial = document.getElementById('data-inicial').value;
+        const dataFinal = document.getElementById('data-final').value;
+        const tipoTarefa = document.getElementById('tipo-tarefa').value;
+        
+        // Validar datas
+        if (new Date(dataFinal) < new Date(dataInicial)) {
+            alert('A data inicial não pode ser maior que a data final.');
+            return;
+        }
+        
+        const apiKey = localStorage.getItem('api_key') || '';
+        showLoading();
+        
+        try {
+            const response = await fetch('/sync', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    api_key: apiKey,
+                    id_produto: null,
+                    id_servico: null,
+                    id_tipo_de_tarefa: tipoTarefa || null,
+                    start_date: dataInicial,
+                    end_date: dataFinal
+                })
+            });
+            
+            if (response.status === 401) {
+                alert('O acesso do usuário expirou. Você será redirecionado para a tela de login.');
+                window.location.href = '/login';
+                return;
+            }
+            
+            if (response.status === 400) {
+                alert('A sincronização falhou.');
+                hideLoading();
+                return;
+            }
+            
+            if (response.status === 200) {
+                // Recarregar dados do dashboard e tipos de tarefa
+                await Promise.all([
+                    carregarTiposTarefa(),
+                    carregarDashboard()
+                ]);
+                alert('Sincronização realizada com sucesso!');
+            }
+            
+        } catch (error) {
+            alert('Erro ao realizar sincronização.');
+        } finally {
+            hideLoading();
+        }
+    });
+    
     Promise.all([
         carregarTiposTarefa(),
         carregarDashboard()
-    ]);
+    ]).then(() => {
+        definirDatasPadrao();
+    });
 });
