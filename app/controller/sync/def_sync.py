@@ -13,6 +13,7 @@ from app.service.salvar_dados_no_banco.salvar_tarefas import salvar_ou_atualizar
 from app.service.salvar_dados_no_banco.salvar_dados_calculados import salvar_ou_atualizar_dados_calculados
 from app.service.calc.custo_produtos import calcular_custo_produtos
 from app.service.calc.calcular_todos_os_dados import calcular_todos_os_valores
+from app.service.calc.calcular_todos_os_dados_tarefa_individual import calcular_todos_os_dados_tarefa_individual
 
 def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date):
     
@@ -70,8 +71,11 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         #Chama a função que faz a extração dos dados inportantes da resposta do endpoint de tarefas. 
         tarefas_e_dados = extrair_lista_dados_tarefas(request_tarefas, filtro_listagem_id_produtos, filtro_listagem_id_servicos)
         
-        #Separa as tarefas obtidas e já salva no banco.
+        #Separa as tarefas obtidas do restntante do Json.
         tarefas = tarefas_e_dados["dados_extraidos"][0]["tarefas"]
+        #Calcula os dados de cada tarefa individual.
+        tarefas =  calcular_todos_os_dados_tarefa_individual(tarefas, produtos)
+        #Salva as tarefas no banco de dados.
         salvar_ou_atualizar_tarefas(user_id, tarefas)
 
         #Obtem a lista de produtos utilizados no calculo.
