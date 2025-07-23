@@ -13,6 +13,28 @@ document.addEventListener('DOMContentLoaded', function() {
         </svg>`;
         document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
     }
+    async function carregarTiposTarefa() {
+        const apiKey = localStorage.getItem('api_key') || '';
+        try {
+            const response = await fetch(`/filtro/carregar_filtros_geral?api_key=${apiKey}`);
+            if (response.ok) {
+                const tipos = await response.json();
+                const select = document.getElementById('tipo-tarefa');
+                if (select) {
+                    // Limpa e adiciona opções
+                    select.innerHTML = '<option value="">Todos</option>';
+                    tipos.forEach(tipo => {
+                        const opt = document.createElement('option');
+                        opt.value = tipo["id-tipo-de-tarefa"];
+                        opt.textContent = tipo["nome-do-tipo-de-tarefa"];
+                        select.appendChild(opt);
+                    });
+                }
+            }
+        } catch (e) {
+            // Pode exibir erro se desejar
+        }
+    }
     async function carregarDashboard() {
         showLoading();
         try {
@@ -57,5 +79,8 @@ document.addEventListener('DOMContentLoaded', function() {
             hideLoading();
         }
     }
-    carregarDashboard();
+    Promise.all([
+        carregarTiposTarefa(),
+        carregarDashboard()
+    ]);
 });
