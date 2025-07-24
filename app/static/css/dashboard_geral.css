@@ -184,6 +184,10 @@ body, html {
     margin-top: 8px;
     text-align: center;
     letter-spacing: 0.5px;
+    min-height: 2.4em;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 /* Filtros */
