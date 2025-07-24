@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showLoading();
         try {
             const apiKey = localStorage.getItem('api_key') || '';
-            const response = await fetch(`https://6bc486485dab.ngrok-free.app/dados/dashboard_geral?api_key=${apiKey}`);
+            const response = await fetch(`/dados/dashboard_geral?api_key=${apiKey}`);
             if (response.ok) {
                 const data = await response.json();
                 // Faturamento Total

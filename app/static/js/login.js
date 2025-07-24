@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         showLoading();
         try {
-            const response = await fetch(' https://6bc486485dab.ngrok-free.app/logar', {
+            const response = await fetch('/logar', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

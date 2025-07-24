@@ -239,4 +239,53 @@ document.addEventListener('DOMContentLoaded', function() {
     ]).then(() => {
         definirDatasPadrao();
     });
+
+    // Seleciona o botão 'GERAL' (primeiro botão .nav-btn)
+    const btnGeral = document.querySelector('.nav-btns .nav-btn');
+    if (btnGeral) {
+        btnGeral.addEventListener('click', async function(e) {
+            e.preventDefault();
+            showLoading();
+            const apiKey = localStorage.getItem('api_key') || '';
+            // Datas: ontem e hoje
+            const hoje = new Date();
+            const ontem = new Date(hoje);
+            ontem.setDate(hoje.getDate() - 1);
+            function formatarData(data) {
+                const ano = data.getFullYear();
+                const mes = String(data.getMonth() + 1).padStart(2, '0');
+                const dia = String(data.getDate()).padStart(2, '0');
+                return `${ano}-${mes}-${dia}`;
+            }
+            const start_date = formatarData(ontem);
+            const end_date = formatarData(hoje);
+            try {
+                const response = await fetch('/sync', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        api_key: apiKey,
+                        id_produto: null,
+                        id_servico: null,
+                        id_tipo_de_tarefa: null,
+                        start_date,
+                        end_date
+                    })
+                });
+                hideLoading();
+                if (response.status === 200) {
+                    window.location.href = '/dashboard_geral';
+                } else if (response.status === 401) {
+                    alert('A autenticação expirou. Faça login novamente.');
+                } else if (response.status === 400) {
+                    alert('Erro ao sincronizar tarefas.');
+                } else {
+                    alert('Erro inesperado ao sincronizar.');
+                }
+            } catch (err) {
+                hideLoading();
+                alert('Erro de conexão ao sincronizar.');
+            }
+        });
+    }
 });
