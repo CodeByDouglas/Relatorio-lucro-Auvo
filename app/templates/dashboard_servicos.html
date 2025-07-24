@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Serviços</title>
+    <link rel="stylesheet" href="/static/css/dashboard_servicos.css">
+</head>
+<body>
+    <header class="header-dashboard">
+        <img src="/static/image/logo_auvo_dashboard.png" alt="Logo Auvo" class="logo-auvo">
+        <nav class="nav-btns">
+            <button class="nav-btn">GERAL</button>
+            <button class="nav-btn" onclick="window.location.href='/dashboard_produtos'">PRODUTO</button>
+            <button class="nav-btn active">SERVIÇO</button>
+        </nav>
+        <button class="export-btn">EXPORTAR EXCEL</button>
+    </header>
+    <div class="dashboard-content">
+        <section class="charts-area">
+            <button class="detalhes-btn" id="btn-detalhes">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-faturamento-servico">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-faturamento-servico">
+                        <span class="chart-percent" id="percent-faturamento-servico">0%</span>
+                    </div>
+                    <div class="chart-title">FATURAMENTO SERVIÇO</div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-value" id="valor-lucro-servico">R$ 0,00</div>
+                    <div class="chart-circle" id="grafico-lucro-servico">
+                        <span class="chart-percent" id="percent-lucro-servico">0%</span>
+                    </div>
+                    <div class="chart-title">LUCRO SERVIÇO</div>
+                </div>
+            </div>
+        </section>
+        <aside class="filters-area">
+            <div class="filters-title">FILTROS</div>
+            <form id="filtros-form">
+                <div class="filter-group">
+                    <label for="data-inicial">Data inicial</label>
+                    <input type="date" id="data-inicial" name="data-inicial">
+                </div>
+                <div class="filter-group">
+                    <label for="data-final">Data final</label>
+                    <input type="date" id="data-final" name="data-final">
+                </div>
+                <div class="filter-group">
+                    <label for="servico">Serviço</label>
+                    <select id="servico" name="servico">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="tipo-tarefa">Tipo de tarefa</label>
+                    <select id="tipo-tarefa" name="tipo-tarefa">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <button type="submit" class="consultar-btn">CONSULTAR</button>
+            </form>
+        </aside>
+    </div>
+    <div id="loading" class="loading-hidden">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+    <!-- Modal de Detalhes -->
+    <div id="modal-detalhes" class="modal-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalhes das Tarefas</h2>
+                <button class="modal-close" id="btn-fechar-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="tarefas-table">
+                    <thead>
+                        <tr>
+                            <th>Tarefa</th>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Faturamento</th>
+                            <th>Lucro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tarefas-tbody">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/dashboard_servicos.js"></script>
+</body>
+</html>
