@@ -171,6 +171,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-detalhes').addEventListener('click', carregarDetalhes);
     document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
     
+    // Event listeners para navegação
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const text = this.textContent.trim();
+            if (text === 'PRODUTO') {
+                window.location.href = '/dashboard_produtos';
+            } else if (text === 'SERVIÇO') {
+                window.location.href = '/dashboard_servicos';
+            }
+        });
+    });
+    
     // Fechar modal ao clicar fora dele
     document.getElementById('modal-detalhes').addEventListener('click', function(e) {
         if (e.target === this) {
