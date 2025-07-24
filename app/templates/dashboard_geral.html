@@ -18,6 +18,12 @@
     </header>
     <div class="dashboard-content">
         <section class="charts-area">
+            <button class="detalhes-btn" id="btn-detalhes">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </button>
             <div class="charts-row">
                 <div class="chart-card">
                     <div class="chart-value" id="valor-faturamento-total">R$ 0,00</div>
@@ -91,6 +97,33 @@
         <div class="dot"></div>
         <div class="dot"></div>
     </div>
+    
+    <!-- Modal de Detalhes -->
+    <div id="modal-detalhes" class="modal-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Detalhes das Tarefas</h2>
+                <button class="modal-close" id="btn-fechar-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="tarefas-table">
+                    <thead>
+                        <tr>
+                            <th>Tarefa</th>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Faturamento</th>
+                            <th>Lucro</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tarefas-tbody">
+                        <!-- Dados serão inseridos dinamicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
     <script src="/static/js/dashboard_geral.js"></script>
 </body>
 </html>

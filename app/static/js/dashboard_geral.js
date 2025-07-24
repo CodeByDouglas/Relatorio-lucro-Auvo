@@ -167,6 +167,70 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Event listeners para o modal de detalhes
+    document.getElementById('btn-detalhes').addEventListener('click', carregarDetalhes);
+    document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
+    
+    // Fechar modal ao clicar fora dele
+    document.getElementById('modal-detalhes').addEventListener('click', function(e) {
+        if (e.target === this) {
+            fecharModal();
+        }
+    });
+    
+    async function carregarDetalhes() {
+        showLoading();
+        try {
+            const apiKey = localStorage.getItem('api_key') || '';
+            const response = await fetch(`/dados/detalhes_geral?api_key=${apiKey}`);
+            
+            if (response.ok) {
+                const tarefas = await response.json();
+                preencherTabelaTarefas(tarefas);
+                abrirModal();
+            } else {
+                alert('Erro ao carregar detalhes das tarefas.');
+            }
+        } catch (error) {
+            alert('Erro ao carregar detalhes das tarefas.');
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    function preencherTabelaTarefas(tarefas) {
+        const tbody = document.getElementById('tarefas-tbody');
+        tbody.innerHTML = '';
+        
+        tarefas.forEach(tarefa => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${tarefa['id-da-tarefa']}</td>
+                <td>${formatarData(tarefa['data-da-tarefa'])}</td>
+                <td>${tarefa['nome-do-cliente']}</td>
+                <td>R$ ${Number(tarefa['faturamento-total']).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                <td>R$ ${Number(tarefa['lucro-total']).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+    
+    function formatarData(dataString) {
+        const data = new Date(dataString);
+        return data.toLocaleDateString('pt-BR');
+    }
+    
+    function abrirModal() {
+        document.getElementById('modal-detalhes').classList.remove('modal-hidden');
+    }
+    
+    function fecharModal() {
+        document.getElementById('modal-detalhes').classList.add('modal-hidden');
+    }
+    
+    // Garantir que o modal comece fechado
+    fecharModal();
+    
     Promise.all([
         carregarTiposTarefa(),
         carregarDashboard()
