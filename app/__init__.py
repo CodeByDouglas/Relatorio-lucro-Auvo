@@ -33,6 +33,7 @@ def create_app(config_name=None):
     from app.controller.filtro.carregar_filtros_geral import filtro_bp
     from app.controller.filtro import carregar_filtros_produtos  
     from app.controller.filtro import carregar_filtros_servicos  
+    from app.controller.admin.scheduler_controller import scheduler_admin_bp
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
@@ -42,9 +43,17 @@ def create_app(config_name=None):
     app.register_blueprint(sync_bp)
     app.register_blueprint(dashboard_controller_bp)
     app.register_blueprint(filtro_bp)
+    app.register_blueprint(scheduler_admin_bp)
     
     # Criação das tabelas se não existirem
     with app.app_context():
         db.create_all()
+        
+        # Inicializar scheduler de tarefas agendadas
+        try:
+            from app.scheduler import init_scheduler
+            init_scheduler(app)
+        except Exception as e:
+            app.logger.error(f"❌ Erro ao inicializar scheduler: {e}")
     
     return app
