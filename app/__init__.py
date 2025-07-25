@@ -43,6 +43,12 @@ def create_app(config_name=None):
     app.register_blueprint(dashboard_controller_bp)
     app.register_blueprint(filtro_bp)
     
+    # Redirecionar a URL raiz para /login
+    @app.route('/')
+    def index():
+        from flask import redirect
+        return redirect('/login')
+    
     # Criação das tabelas se não existirem
     with app.app_context():
         db.create_all()
