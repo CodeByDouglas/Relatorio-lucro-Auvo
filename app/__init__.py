@@ -33,6 +33,7 @@ def create_app(config_name=None):
     from app.controller.filtro.carregar_filtros_geral import filtro_bp
     from app.controller.filtro import carregar_filtros_produtos  
     from app.controller.filtro import carregar_filtros_servicos  
+    from app.controller.Planilha.planilha_geral import planilha_bp
     
     app.register_blueprint(login_bp)
     app.register_blueprint(dashboard_bp)
@@ -42,6 +43,7 @@ def create_app(config_name=None):
     app.register_blueprint(sync_bp)
     app.register_blueprint(dashboard_controller_bp)
     app.register_blueprint(filtro_bp)
+    app.register_blueprint(planilha_bp)
     
     # Redirecionar a URL raiz para /login
     @app.route('/')
