@@ -18,16 +18,21 @@ def dados_dashboard_produtos():
             faturamento_produtos = Faturamento_produtos.query.filter_by(user_id=user_id).first()
             lucro_produtos = Lucro_produtos.query.filter_by(user_id=user_id).first()
             
+            # Calcular a porcentagem do lucro em relação ao faturamento
+            porcentagem_lucro = 0
+            if faturamento_produtos.valor > 0:
+                porcentagem_lucro = (lucro_produtos.valor / faturamento_produtos.valor) * 100
+            
             return jsonify({
                 
                 "faturamento_produtos": {
                     "valor": faturamento_produtos.valor,
-                    "porcentagem_faturamento_total": faturamento_produtos.porcentagem_faturamento_total
+                    "porcentagem_faturamento_total": 100
                 },
                 
                 "lucro_produtos": {
                     "valor": lucro_produtos.valor,
-                    "porcentagem_lucro_total": lucro_produtos.porcentagem_lucro_total
+                    "porcentagem_lucro_total": porcentagem_lucro
                 },
             }), 200
         

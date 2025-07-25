@@ -20,14 +20,15 @@ def detalhes_produtos():
                 lista_tarefas = tarefas.json_lista_tarefas
                 resultado = []
                 for tarefa in lista_tarefas:
-                    novo_obj = {
-                        "id-da-tarefa": tarefa.get("id-da-tarefa"),
-                        "data-da-tarefa": tarefa.get("data-da-tarefa", "")[:10],
-                        "nome-do-cliente": tarefa.get("nome-do-cliente"),
-                        "faturamento-total": tarefa.get("faturamento-produtos"),
-                        "lucro-total": tarefa.get("lucro-produto")
-                    }
-                    resultado.append(novo_obj)
+                    if tarefa.get("faturamento-produtos", 0) != 0:
+                        novo_obj = {
+                            "id-da-tarefa": tarefa.get("id-da-tarefa"),
+                            "data-da-tarefa": tarefa.get("data-da-tarefa", "")[:10],
+                            "nome-do-cliente": tarefa.get("nome-do-cliente"),
+                            "faturamento-total": tarefa.get("faturamento-produtos"),
+                            "lucro-total": tarefa.get("lucro-produto")
+                        }
+                        resultado.append(novo_obj)
                 return jsonify(resultado), 200
             else:
                 return jsonify([]), 200

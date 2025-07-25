@@ -18,14 +18,19 @@ def dados_dashboard_servicos():
             faturamento_servicos = Faturamento_servicos.query.filter_by(user_id=user_id).first()
             lucro_servicos = Lucro_servicos.query.filter_by(user_id=user_id).first()
             
+            # Calcular a porcentagem do lucro em relação ao faturamento
+            porcentagem_lucro = 0
+            if faturamento_servicos.valor > 0:
+                porcentagem_lucro = (lucro_servicos.valor / faturamento_servicos.valor) * 100
+            
             return jsonify({
                 "faturamento_servicos": {
                     "valor": faturamento_servicos.valor,
-                    "porcentagem_faturamento_total": faturamento_servicos.porcentagem_faturamento_total
+                    "porcentagem_faturamento_total": 100
                 },
                 "lucro_servicos": {
                     "valor": lucro_servicos.valor,
-                    "porcentagem_lucro_total": lucro_servicos.porcentagem_lucro_total
+                    "porcentagem_lucro_total": porcentagem_lucro
                 },
             }), 200
         
