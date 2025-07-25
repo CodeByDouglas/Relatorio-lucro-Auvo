@@ -471,6 +471,22 @@ body, html {
     }
 }
 
+.chart-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: #222;
+    color: #fff;
+    padding: 7px 16px;
+    border-radius: 7px;
+    font-size: 1rem;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+    opacity: 0.97;
+    transition: opacity 0.15s;
+    font-family: inherit;
+}
+
 @media (max-width: 1300px) {
     .dashboard-content {
         max-width: 100vw;
