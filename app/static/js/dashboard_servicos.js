@@ -86,12 +86,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let passo = porcentagemFinal / steps;
         let porcentagemAtual = 0;
         let frame = 0;
+        // Descobrir o id do span da porcentagem
+        let idPercent = id.replace('grafico', 'percent');
         function desenhar(p) {
             let svg = `<svg viewBox='0 0 100 100' style='cursor:pointer;'>
                 <circle class='grafico-bg' cx='50' cy='50' r='45' fill='none' stroke='${corSecundaria}' stroke-width='10'/>
                 <circle class='grafico-fg' cx='50' cy='50' r='45' fill='none' stroke='${corPrincipal}' stroke-width='10' stroke-dasharray='${p * 2.83} ${(100 - p) * 2.83}' stroke-dashoffset='0' style='transition: none;' transform='rotate(-90 50 50)'/>
             </svg>`;
-            document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
+            // Reinserir o span da porcentagem junto com o SVG
+            document.getElementById(id).innerHTML = svg + `<span class='chart-percent' id='${idPercent}'>${Math.round(p)}%</span>`;
             const container = document.getElementById(id);
             const svgEl = container.querySelector('svg');
             const bg = container.querySelector('.grafico-bg');
@@ -190,15 +193,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(`/dados/dashboard_servicos?api_key=${apiKey}`);
             if (response.ok) {
                 const data = await response.json();
+                // Inicializar os números das porcentagens com 0%
+                document.getElementById('percent-faturamento-servico').textContent = '0%';
+                document.getElementById('percent-lucro-servico').textContent = '0%';
                 // Faturamento Serviço
-                const percentFaturamentoServico = Math.round(data.faturamento_servicos.porcentagem_faturamento_total);
                 document.getElementById('valor-faturamento-servico').textContent = `R$ ${Number(data.faturamento_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-                document.getElementById('percent-faturamento-servico').textContent = `${percentFaturamentoServico}%`;
                 desenharGraficoComTooltipAnimado('grafico-faturamento-servico', data.faturamento_servicos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-servico');
                 // Lucro Serviço
-                const percentLucroServico = Math.round(data.lucro_servicos.porcentagem_lucro_total);
                 document.getElementById('valor-lucro-servico').textContent = `R$ ${Number(data.lucro_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-                document.getElementById('percent-lucro-servico').textContent = `${percentLucroServico}%`;
                 desenharGraficoComTooltipAnimado('grafico-lucro-servico', data.lucro_servicos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-servico');
             }
         } catch (e) {

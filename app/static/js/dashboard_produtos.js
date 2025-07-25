@@ -51,12 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
         let passo = porcentagemFinal / steps;
         let porcentagemAtual = 0;
         let frame = 0;
+        // Descobrir o id do span da porcentagem
+        let idPercent = id.replace('grafico', 'percent');
         function desenhar(p) {
             let svg = `<svg viewBox='0 0 100 100' style='cursor:pointer;'>
                 <circle class='grafico-bg' cx='50' cy='50' r='45' fill='none' stroke='${corSecundaria}' stroke-width='10'/>
                 <circle class='grafico-fg' cx='50' cy='50' r='45' fill='none' stroke='${corPrincipal}' stroke-width='10' stroke-dasharray='${p * 2.83} ${(100 - p) * 2.83}' stroke-dashoffset='0' style='transition: none;' transform='rotate(-90 50 50)'/>
             </svg>`;
-            document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
+            // Reinserir o span da porcentagem junto com o SVG
+            document.getElementById(id).innerHTML = svg + `<span class='chart-percent' id='${idPercent}'>${Math.round(p)}%</span>`;
             const container = document.getElementById(id);
             const svgEl = container.querySelector('svg');
             const bg = container.querySelector('.grafico-bg');
@@ -161,17 +164,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const response = await fetch(`/dados/dashboard_produtos?api_key=${apiKey}`);
             if (response.ok) {
                 const data = await response.json();
-                
+                // Inicializar os números das porcentagens com 0%
+                document.getElementById('percent-faturamento-produto').textContent = '0%';
+                document.getElementById('percent-lucro-produto').textContent = '0%';
                 // Faturamento Produto
-                const percentFaturamentoProduto = Math.round(data.faturamento_produtos.porcentagem_faturamento_total);
                 document.getElementById('valor-faturamento-produto').textContent = `R$ ${Number(data.faturamento_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-                document.getElementById('percent-faturamento-produto').textContent = `${percentFaturamentoProduto}%`;
                 desenharGraficoComTooltipAnimado('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
-                
                 // Lucro Produto
-                const percentLucroProduto = Math.round(data.lucro_produtos.porcentagem_lucro_total);
                 document.getElementById('valor-lucro-produto').textContent = `R$ ${Number(data.lucro_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-                document.getElementById('percent-lucro-produto').textContent = `${percentLucroProduto}%`;
                 desenharGraficoComTooltipAnimado('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
             }
         } catch (e) {
