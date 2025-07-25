@@ -44,39 +44,52 @@ document.addEventListener('DOMContentLoaded', function() {
         tooltip.style.display = 'none';
     }
 
-    function desenharGraficoComTooltip(id, porcentagem, corPrincipal, corSecundaria, tipo) {
-        // tipo: 'faturamento-produto', 'lucro-produto'
-        let svg = `<svg viewBox='0 0 100 100' style='cursor:pointer;'>
-            <circle class='grafico-bg' cx='50' cy='50' r='45' fill='none' stroke='${corSecundaria}' stroke-width='10'/>
-            <circle class='grafico-fg' cx='50' cy='50' r='45' fill='none' stroke='${corPrincipal}' stroke-width='10' stroke-dasharray='${porcentagem * 2.83} ${(100 - porcentagem) * 2.83}' stroke-dashoffset='0' style='transition: stroke-dasharray 0.6s;' transform='rotate(-90 50 50)'/>
-        </svg>`;
-        document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
-        const container = document.getElementById(id);
-        const svgEl = container.querySelector('svg');
-        const bg = container.querySelector('.grafico-bg');
-        const fg = container.querySelector('.grafico-fg');
-        // Tooltips por tipo
-        let tooltipFg = '', tooltipBg = '';
-        switch(tipo) {
-            case 'faturamento-produto':
-                tooltipFg = 'Faturamento produto';
-                break;
-            case 'lucro-produto':
-                tooltipFg = 'Lucro produto';
-                tooltipBg = 'Faturamento produto';
-                break;
+    function desenharGraficoComTooltipAnimado(id, porcentagemFinal, corPrincipal, corSecundaria, tipo) {
+        let duracao = 900; // ms
+        let fps = 60;
+        let steps = Math.round((duracao / 1000) * fps);
+        let passo = porcentagemFinal / steps;
+        let porcentagemAtual = 0;
+        let frame = 0;
+        function desenhar(p) {
+            let svg = `<svg viewBox='0 0 100 100' style='cursor:pointer;'>
+                <circle class='grafico-bg' cx='50' cy='50' r='45' fill='none' stroke='${corSecundaria}' stroke-width='10'/>
+                <circle class='grafico-fg' cx='50' cy='50' r='45' fill='none' stroke='${corPrincipal}' stroke-width='10' stroke-dasharray='${p * 2.83} ${(100 - p) * 2.83}' stroke-dashoffset='0' style='transition: none;' transform='rotate(-90 50 50)'/>
+            </svg>`;
+            document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
+            const container = document.getElementById(id);
+            const svgEl = container.querySelector('svg');
+            const bg = container.querySelector('.grafico-bg');
+            const fg = container.querySelector('.grafico-fg');
+            // Tooltips por tipo
+            let tooltipFg = '', tooltipBg = '';
+            switch(tipo) {
+                case 'faturamento-produto': tooltipFg = 'Faturamento produto'; break;
+                case 'lucro-produto': tooltipFg = 'Lucro produto'; tooltipBg = 'Faturamento produto'; break;
+            }
+            if (fg) {
+                fg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipFg, e));
+                fg.addEventListener('mouseleave', esconderTooltip);
+            }
+            if (bg && tooltipBg) {
+                bg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipBg, e));
+                bg.addEventListener('mouseleave', esconderTooltip);
+            }
+            if (svgEl) {
+                svgEl.addEventListener('mouseleave', esconderTooltip);
+            }
         }
-        if (fg) {
-            fg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipFg, e));
-            fg.addEventListener('mouseleave', esconderTooltip);
+        function animar() {
+            if (frame < steps) {
+                desenhar(porcentagemAtual);
+                porcentagemAtual += passo;
+                frame++;
+                requestAnimationFrame(animar);
+            } else {
+                desenhar(porcentagemFinal);
+            }
         }
-        if (bg && tooltipBg) {
-            bg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipBg, e));
-            bg.addEventListener('mouseleave', esconderTooltip);
-        }
-        if (svgEl) {
-            svgEl.addEventListener('mouseleave', esconderTooltip);
-        }
+        animar();
     }
     
     function definirDatasPadrao() {
@@ -153,13 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 const percentFaturamentoProduto = Math.round(data.faturamento_produtos.porcentagem_faturamento_total);
                 document.getElementById('valor-faturamento-produto').textContent = `R$ ${Number(data.faturamento_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-faturamento-produto').textContent = `${percentFaturamentoProduto}%`;
-                desenharGraficoComTooltip('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
+                desenharGraficoComTooltipAnimado('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
                 
                 // Lucro Produto
                 const percentLucroProduto = Math.round(data.lucro_produtos.porcentagem_lucro_total);
                 document.getElementById('valor-lucro-produto').textContent = `R$ ${Number(data.lucro_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-lucro-produto').textContent = `${percentLucroProduto}%`;
-                desenharGraficoComTooltip('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
+                desenharGraficoComTooltipAnimado('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
             }
         } catch (e) {
             // Pode exibir erro se desejar

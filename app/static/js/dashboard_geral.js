@@ -92,6 +92,57 @@ document.addEventListener('DOMContentLoaded', function() {
             svgEl.addEventListener('mouseleave', esconderTooltip);
         }
     }
+    function desenharGraficoComTooltipAnimado(id, porcentagemFinal, corPrincipal, corSecundaria, tipo) {
+        let duracao = 900; // ms
+        let fps = 60;
+        let steps = Math.round((duracao / 1000) * fps);
+        let passo = porcentagemFinal / steps;
+        let porcentagemAtual = 0;
+        let frame = 0;
+        function desenhar(p) {
+            let svg = `<svg viewBox='0 0 100 100' style='cursor:pointer;'>
+                <circle class='grafico-bg' cx='50' cy='50' r='45' fill='none' stroke='${corSecundaria}' stroke-width='10'/>
+                <circle class='grafico-fg' cx='50' cy='50' r='45' fill='none' stroke='${corPrincipal}' stroke-width='10' stroke-dasharray='${p * 2.83} ${(100 - p) * 2.83}' stroke-dashoffset='0' style='transition: none;' transform='rotate(-90 50 50)'/>
+            </svg>`;
+            document.getElementById(id).innerHTML = svg + document.getElementById(id).innerHTML.replace(/<svg[\s\S]*<\/svg>/, '');
+            const container = document.getElementById(id);
+            const svgEl = container.querySelector('svg');
+            const bg = container.querySelector('.grafico-bg');
+            const fg = container.querySelector('.grafico-fg');
+            // Tooltips por tipo
+            let tooltipFg = '', tooltipBg = '';
+            switch(tipo) {
+                case 'faturamento-total': tooltipFg = 'Faturamento total'; break;
+                case 'faturamento-produto': tooltipFg = 'Faturamento produtos'; tooltipBg = 'Faturamento total'; break;
+                case 'faturamento-servico': tooltipFg = 'Faturamento serviços'; tooltipBg = 'Faturamento total'; break;
+                case 'lucro-total': tooltipFg = 'Lucro total'; tooltipBg = 'Faturamento total'; break;
+                case 'lucro-produto': tooltipFg = 'Lucro produto'; tooltipBg = 'Lucro total'; break;
+                case 'lucro-servico': tooltipFg = 'Lucro serviço'; tooltipBg = 'Lucro total'; break;
+            }
+            if (fg) {
+                fg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipFg, e));
+                fg.addEventListener('mouseleave', esconderTooltip);
+            }
+            if (bg && tooltipBg) {
+                bg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipBg, e));
+                bg.addEventListener('mouseleave', esconderTooltip);
+            }
+            if (svgEl) {
+                svgEl.addEventListener('mouseleave', esconderTooltip);
+            }
+        }
+        function animar() {
+            if (frame < steps) {
+                desenhar(porcentagemAtual);
+                porcentagemAtual += passo;
+                frame++;
+                requestAnimationFrame(animar);
+            } else {
+                desenhar(porcentagemFinal);
+            }
+        }
+        animar();
+    }
     function definirDatasPadrao() {
         const hoje = new Date();
         const ontem = new Date(hoje);
@@ -151,32 +202,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 const percentFaturamentoTotal = Math.round(data.faturamento_total.porcentagem_total_faturamento);
                 document.getElementById('valor-faturamento-total').textContent = `R$ ${Number(data.faturamento_total.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-faturamento-total').textContent = `${percentFaturamentoTotal}%`;
-                desenharGraficoComTooltip('grafico-faturamento-total', 100, '#7024c4', '#eaeaea', 'faturamento-total');
+                desenharGraficoComTooltipAnimado('grafico-faturamento-total', 100, '#7024c4', '#eaeaea', 'faturamento-total');
                 // Faturamento Produto
                 const percentFaturamentoProduto = Math.round(data.faturamento_produtos.porcentagem_faturamento_total);
                 document.getElementById('valor-faturamento-produto').textContent = `R$ ${Number(data.faturamento_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-faturamento-produto').textContent = `${percentFaturamentoProduto}%`;
-                desenharGraficoComTooltip('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
+                desenharGraficoComTooltipAnimado('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
                 // Faturamento Serviço
                 const percentFaturamentoServico = Math.round(data.faturamento_servicos.porcentagem_faturamento_total);
                 document.getElementById('valor-faturamento-servico').textContent = `R$ ${Number(data.faturamento_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-faturamento-servico').textContent = `${percentFaturamentoServico}%`;
-                desenharGraficoComTooltip('grafico-faturamento-servico', data.faturamento_servicos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-servico');
+                desenharGraficoComTooltipAnimado('grafico-faturamento-servico', data.faturamento_servicos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-servico');
                 // Lucro Total
                 const percentLucroTotal = Math.round(data.lucro_total.porcentagem_faturamento_total);
                 document.getElementById('valor-lucro-total').textContent = `R$ ${Number(data.lucro_total.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-lucro-total').textContent = `${percentLucroTotal}%`;
-                desenharGraficoComTooltip('grafico-lucro-total', data.lucro_total.porcentagem_faturamento_total, '#16b14b', '#eaeaea', 'lucro-total');
+                desenharGraficoComTooltipAnimado('grafico-lucro-total', data.lucro_total.porcentagem_faturamento_total, '#16b14b', '#eaeaea', 'lucro-total');
                 // Lucro Produto
                 const percentLucroProduto = Math.round(data.lucro_produtos.porcentagem_lucro_total);
                 document.getElementById('valor-lucro-produto').textContent = `R$ ${Number(data.lucro_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-lucro-produto').textContent = `${percentLucroProduto}%`;
-                desenharGraficoComTooltip('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
+                desenharGraficoComTooltipAnimado('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
                 // Lucro Serviço
                 const percentLucroServico = Math.round(data.lucro_servicos.porcentagem_lucro_total);
                 document.getElementById('valor-lucro-servico').textContent = `R$ ${Number(data.lucro_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 document.getElementById('percent-lucro-servico').textContent = `${percentLucroServico}%`;
-                desenharGraficoComTooltip('grafico-lucro-servico', data.lucro_servicos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-servico');
+                desenharGraficoComTooltipAnimado('grafico-lucro-servico', data.lucro_servicos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-servico');
             }
         } catch (e) {
             // Pode exibir erro se desejar
