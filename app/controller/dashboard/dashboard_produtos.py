@@ -18,7 +18,7 @@ def dados_dashboard_produtos():
             faturamento_produtos = Faturamento_produtos.query.filter_by(user_id=user_id).first()
             lucro_produtos = Lucro_produtos.query.filter_by(user_id=user_id).first()
             
-            # Calcular a porcentagem do lucro em relação ao faturamento
+            # Calcular a porcentagem do lucro em relação ao faturamento de produtos.
             porcentagem_lucro = 0
             if faturamento_produtos.valor > 0:
                 porcentagem_lucro = (lucro_produtos.valor / faturamento_produtos.valor) * 100
