@@ -380,10 +380,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // Botão SERVIÇO: não faz nada (ativo)
 
     fecharModal();
+    
     Promise.all([
         carregarFiltros(),
         carregarDashboard()
     ]).then(() => {
         definirDatasPadrao();
     });
+
+    // Função para exportar Excel
+    async function exportarExcel() {
+        showLoading();
+        try {
+            const apiKey = localStorage.getItem('api_key') || '';
+            const response = await fetch(`/gerar_planilha/servico?api_key=${apiKey}`);
+            if (response.status === 200) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Relatorio_de_Lucro_Servico.xlsx';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            } else if (response.status === 401) {
+                alert('Usuário não autenticado. Faça login novamente.');
+                window.location.href = '/login';
+            } else {
+                alert('Erro ao exportar planilha.');
+            }
+        } catch (e) {
+            alert('Erro ao exportar planilha.');
+        } finally {
+            hideLoading();
+        }
+    }
+    
+    // Adicionar event listener ao botão Exportar Excel
+    document.querySelector('.export-btn').addEventListener('click', exportarExcel);
 });
