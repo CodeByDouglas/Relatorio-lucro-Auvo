@@ -8,9 +8,9 @@ import tempfile
 import openpyxl
 from openpyxl.styles import Border, Side, PatternFill
 
-def gerar_planilha_geral_service(user_id):
+def extrair_dados_geral(user_id):
     """
-    Função que gera a planilha Excel para o relatório geral
+    Função que extrai e processa os dados para o relatório geral
     """
     # Buscar dados das tarefas
     tarefas_obj = Tarefas.query.filter_by(user_id=user_id).first()
@@ -89,6 +89,15 @@ def gerar_planilha_geral_service(user_id):
         tarefa_nome['Serviços'] = nomes_servicos
         tarefas_com_nomes_tudo.append(tarefa_nome)
 
+    return tarefas_com_nomes_tudo
+
+
+def gerar_planilha_excel_geral(user_id):
+    """
+    Função que gera a planilha Excel para o relatório geral
+    """
+    # Extrair e processar os dados
+    tarefas_com_nomes_tudo = extrair_dados_geral(user_id)
     # Gerar planilha Excel usando o modelo e tarefas_com_nomes_tudo
     modelo_path = os.path.join(os.path.dirname(__file__), 'modelos', 'Planilha_relatorio_de_lucro_geral.xlsx')
     wb = openpyxl.load_workbook(modelo_path)
@@ -135,3 +144,6 @@ def gerar_planilha_geral_service(user_id):
     wb.save(temp.name)
 
     return temp.name
+
+
+

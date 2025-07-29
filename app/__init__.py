@@ -26,7 +26,7 @@ def create_app(config_name=None):
     from app.controller.sync.sync_controler import sync_bp
     from app.controller.dashboard.dashboard_geral import dashboard_controller_bp
     from app.controller.dashboard import dashboard_produtos  
-    from app.controller.dashboard import dashboard_serviços 
+    from app.controller.dashboard import dashboard_servicos 
     from app.controller.dashboard import detalhes_geral  
     from app.controller.dashboard import detalhes_produtos  
     from app.controller.dashboard import detalhes_servicos  
