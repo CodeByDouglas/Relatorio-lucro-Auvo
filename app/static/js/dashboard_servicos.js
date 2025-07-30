@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dataFinal = document.getElementById('data-final').value;
         const servico = document.getElementById('servico').value;
         const tipoTarefa = document.getElementById('tipo-tarefa').value;
+        const status = document.getElementById('status').value;
         // Validar datas
         if (new Date(dataFinal) < new Date(dataInicial)) {
             alert('A data inicial não pode ser maior que a data final.');
@@ -294,7 +295,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     id_servico: servico || null,
                     id_tipo_de_tarefa: tipoTarefa || null,
                     start_date: dataInicial,
-                    end_date: dataFinal
+                    end_date: dataFinal,
+                    status: status
                 })
             });
             if (response.status === 401) {
@@ -351,7 +353,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         id_servico: null,
                         id_tipo_de_tarefa: null,
                         start_date,
-                        end_date
+                        end_date,
+                        status: "4"  // Todas por padrão
                     })
                 });
                 hideLoading();

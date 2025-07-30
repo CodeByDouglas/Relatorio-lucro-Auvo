@@ -27,9 +27,9 @@ def extrair_dados_produto(user_id):
     produtos_cadastrados = produtos_obj.json_lista_produtos if produtos_obj and produtos_obj.json_lista_produtos else []
 
     # Montar lista de tarefas com os campos desejados (apenas produtos)
-    resultado = []
+    tarefas_base = []
     for tarefa in tarefas_produtos:
-        resultado.append({
+        tarefas_base.append({
             'Código da Tarefa': tarefa.get('id-da-tarefa'),
             'Data': tarefa.get('data-da-tarefa', '')[:10],
             'Cliente': tarefa.get('nome-do-cliente'),
@@ -41,38 +41,38 @@ def extrair_dados_produto(user_id):
         })
 
     # Criar dicionário de id->nome para produtos cadastrados
-    produtos_id_nome = {}
+    produtos_map = {}
     for p in produtos_cadastrados:
         if isinstance(p, dict) and 'id-produto' in p and 'nome-do-produto' in p:
-            produtos_id_nome[str(p['id-produto'])] = p['nome-do-produto']
+            produtos_map[str(p['id-produto'])] = p['nome-do-produto']
 
     # Montar lista de tarefas com nomes de produtos
-    tarefas_com_nomes = []
-    for tarefa in resultado:
-        nomes_produtos = [produtos_id_nome.get(str(pid), pid) for pid in tarefa['Produtos']]
+    tarefas_com_produtos = []
+    for tarefa in tarefas_base:
+        nomes_produtos = [produtos_map.get(str(pid), pid) for pid in tarefa['Produtos']]
         tarefa_nome = tarefa.copy()
         tarefa_nome['Produtos'] = nomes_produtos
-        tarefas_com_nomes.append(tarefa_nome)
+        tarefas_com_produtos.append(tarefa_nome)
 
     # Buscar tipos de tarefa cadastrados
     tipos_obj = Tipos_de_tarefas.query.filter_by(user_id=user_id).first()
     tipos_cadastrados = tipos_obj.json_lista_tipos_de_tarefas if tipos_obj and tipos_obj.json_lista_tipos_de_tarefas else []
 
     # Criar dicionário de id->nome para tipos de tarefa cadastrados
-    tipos_id_nome = {}
+    tipos_map = {}
     for t in tipos_cadastrados:
         if isinstance(t, dict) and 'id-tipo-de-tarefa' in t and 'nome-do-tipo-de-tarefa' in t:
-            tipos_id_nome[str(t['id-tipo-de-tarefa'])] = t['nome-do-tipo-de-tarefa']
+            tipos_map[str(t['id-tipo-de-tarefa'])] = t['nome-do-tipo-de-tarefa']
 
     # Montar lista final de tarefas com nomes de produtos e tipos de tarefa
-    tarefas_final = []
-    for tarefa in tarefas_com_nomes:
-        tipo_nome = tipos_id_nome.get(str(tarefa['Tipo de Tarefa']), tarefa['Tipo de Tarefa'])
+    tarefas_processadas = []
+    for tarefa in tarefas_com_produtos:
+        tipo_nome = tipos_map.get(str(tarefa['Tipo de Tarefa']), tarefa['Tipo de Tarefa'])
         tarefa_nome = tarefa.copy()
         tarefa_nome['Tipo de Tarefa'] = tipo_nome
-        tarefas_final.append(tarefa_nome)
+        tarefas_processadas.append(tarefa_nome)
 
-    return tarefas_final
+    return tarefas_processadas
 
 
 def gerar_planilha_excel_produto(user_id):
@@ -80,7 +80,7 @@ def gerar_planilha_excel_produto(user_id):
     Função que gera a planilha Excel para o relatório de produtos
     """
     # Extrair e processar os dados
-    tarefas_final = extrair_dados_produto(user_id)
+    tarefas_processadas = extrair_dados_produto(user_id)
     # Gerar planilha Excel usando o modelo de produtos
     modelo_path = os.path.join(os.path.dirname(__file__), 'modelos', 'Relatorio_de_Lucro_produto.xlsx')
     wb = openpyxl.load_workbook(modelo_path)
@@ -100,7 +100,7 @@ def gerar_planilha_excel_produto(user_id):
 
     # Escrever os dados das tarefas a partir da linha 2
     start_row = 2
-    for idx, tarefa in enumerate(tarefas_final):
+    for idx, tarefa in enumerate(tarefas_processadas):
         row = start_row + idx
         ws.cell(row=row, column=1, value=tarefa['Código da Tarefa'])
         ws.cell(row=row, column=2, value=tarefa['Data'])

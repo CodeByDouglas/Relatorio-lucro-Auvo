@@ -35,7 +35,7 @@ def logar():
                     start_date = ontem.strftime('%Y-%m-%d')
                     end_date = hoje.strftime('%Y-%m-%d')
                     
-                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date)
+                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date, None)
                     
                     if resultado_sync[0] == False:
                         return jsonify({"message": resultado_sync[1]}), 400
@@ -52,7 +52,7 @@ def logar():
                     start_date = ontem.strftime('%Y-%m-%d')
                     end_date = hoje.strftime('%Y-%m-%d')
                     
-                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date)
+                    resultado_sync = sync(user.id, accessToken, None, None, None, start_date, end_date, status=None)
                     
                     if resultado_sync[0] == False:
                         return jsonify({"message": resultado_sync[1]}), 400
