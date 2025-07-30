@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from flask import Blueprint
 from app.controller.login.check_auth import check_auth
-from app.models.dados_calculados import  Faturamento_produtos, Lucro_produtos
+from app.models.dados_calculados import  Faturamento_produtos, Lucro_produtos, Custo_produtos
 from app.models.user import User
 from app.controller.dashboard.dashboard_geral import dashboard_controller_bp
 
@@ -17,6 +17,7 @@ def dados_dashboard_produtos():
             
             faturamento_produtos = Faturamento_produtos.query.filter_by(user_id=user_id).first()
             lucro_produtos = Lucro_produtos.query.filter_by(user_id=user_id).first()
+            custo_produtos = Custo_produtos.query.filter_by(user_id=user_id).first()
             
             # Calcular a porcentagem do lucro em relação ao faturamento de produtos.
             porcentagem_lucro = 0
@@ -34,6 +35,11 @@ def dados_dashboard_produtos():
                     "valor": lucro_produtos.valor,
                     "porcentagem_lucro_total": porcentagem_lucro
                 },
+                
+                "custo_produtos": {
+                    "valor": custo_produtos.valor,
+                    "porcentagem_faturamento_total": custo_produtos.porcentagem_faturamento_total
+                }
             }), 200
         
         else:

@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             switch(tipo) {
                 case 'faturamento-produto': tooltipFg = 'Faturamento produto'; break;
                 case 'lucro-produto': tooltipFg = 'Lucro produto'; tooltipBg = 'Faturamento produto'; break;
+                case 'custo-produto': tooltipFg = 'Custo produto'; tooltipBg = 'Faturamento produto'; break;
             }
             if (fg) {
                 fg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipFg, e));
@@ -167,12 +168,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Inicializar os números das porcentagens com 0%
                 document.getElementById('percent-faturamento-produto').textContent = '0%';
                 document.getElementById('percent-lucro-produto').textContent = '0%';
+                document.getElementById('percent-custo-produto').textContent = '0%';
                 // Faturamento Produto
                 document.getElementById('valor-faturamento-produto').textContent = `R$ ${Number(data.faturamento_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-faturamento-produto', data.faturamento_produtos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-produto');
                 // Lucro Produto
                 document.getElementById('valor-lucro-produto').textContent = `R$ ${Number(data.lucro_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-lucro-produto', data.lucro_produtos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-produto');
+                // Custo Produto
+                document.getElementById('valor-custo-produto').textContent = `R$ ${Number(data.custo_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                desenharGraficoComTooltipAnimado('grafico-custo-produto', data.custo_produtos.porcentagem_faturamento_total, '#ff6b35', '#eaeaea', 'custo-produto');
             }
         } catch (e) {
             // Pode exibir erro se desejar

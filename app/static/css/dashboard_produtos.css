@@ -133,10 +133,10 @@ body, html {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    padding: 0 32px;
+    padding: 0 20px;
     min-width: 0;
     min-height: 0;
-    flex: 1 1 50%;
+    flex: 1 1 33.33%;
     transition: none;
     position: relative;
 }
@@ -147,7 +147,7 @@ body, html {
 
 .chart-value {
     color: #000;
-    font-size: 2vw;
+    font-size: 1.8vw;
     font-weight: 700;
     margin-bottom: 8px;
     margin-top: 0;
@@ -156,12 +156,12 @@ body, html {
 }
 
 .chart-circle {
-    width: 16vw;
-    height: 16vw;
-    min-width: 180px;
-    min-height: 180px;
-    max-width: 260px;
-    max-height: 260px;
+    width: 14vw;
+    height: 14vw;
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 220px;
+    max-height: 220px;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
@@ -175,8 +175,8 @@ body, html {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 2.5vw;
-    min-font-size: 32px;
+    font-size: 2.2vw;
+    min-font-size: 28px;
     font-weight: 700;
     letter-spacing: 1px;
     text-align: center;
@@ -195,11 +195,16 @@ body, html {
 
 .chart-title {
     color: #000;
-    font-size: 1.2vw;
+    font-size: 1.1vw;
     font-weight: 600;
     margin-top: 8px;
     text-align: center;
     letter-spacing: 0.5px;
+    min-height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.2;
 }
 
 .filters-area {
