@@ -1,16 +1,19 @@
 from app.Api.request_produtos import request_produtos_auvo
-from app.Api.request_servico import request_servicos_auvo
+from app.Api.request_servicos import request_servicos_auvo
 from app.Api.request_tipo_de_tarefa import request_tipos_de_tarefa_auvo
 from app. Api.request_tarefas import request_tarefas_completa
+from app.Api.request_colaboradores import request_colaboradores_auvo
 from app.service.extrair_dados_das_respostas.extrair_dados_produto import extrair_lista_produtos
 from app.service.extrair_dados_das_respostas.extrair_dados_servicos import extrair_lista_servicos
 from app.service.extrair_dados_das_respostas.extrair_dados_tipos_de_tarefa import extrair_tipos_de_tarefa
 from app.service.extrair_dados_das_respostas.extrair_dados_tarefas import extrair_lista_dados_tarefas
+from app.service.extrair_dados_das_respostas.extrair_dados_colaboradores import extrair_lista_colaboradores
 from app.service.salvar_dados_no_banco.salvar_produtos import salvar_ou_atualizar_produtos
 from app.service.salvar_dados_no_banco.salvar_servicos import salvar_ou_atualizar_servicos
 from app.service.salvar_dados_no_banco.salvar_tipos_de_tarefa import salvar_ou_atualizar_tipos_de_tarefa
 from app.service.salvar_dados_no_banco.salvar_tarefas import salvar_ou_atualizar_tarefas
 from app.service.salvar_dados_no_banco.salvar_dados_calculados import salvar_ou_atualizar_dados_calculados
+from app.service.salvar_dados_no_banco.salvar_colaboradores import salvar_ou_atualizar_colaboradores
 from app.service.calc.custo_produtos import calcular_custo_produtos
 from app.service.calc.calcular_todos_os_dados import calcular_todos_os_valores
 from app.service.calc.calcular_todos_os_dados_tarefa_individual import calcular_todos_os_dados_tarefa_individual
@@ -40,6 +43,14 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
     else:
         tipos_de_tarefa = extrair_tipos_de_tarefa(request_tipos_de_tarefa)
         salvar_ou_atualizar_tipos_de_tarefa(user_id, tipos_de_tarefa)
+    
+    # Chama a Api de colaboradores e atualiza o banco.
+    request_colaboradores = request_colaboradores_auvo(accessToken)
+    if request_colaboradores is None:
+        return False, "API de colaboradores falhou"
+    else:
+        colaboradores = extrair_lista_colaboradores(request_colaboradores)
+        salvar_ou_atualizar_colaboradores(user_id, colaboradores)
     
     #Pega a listagem de dos Id de produtos que tem armazenado para só contar produtos que esteja ativos no sistema. 
     filtro_listagem_id_produtos = [produto['id-produto'] for produto in produtos]
