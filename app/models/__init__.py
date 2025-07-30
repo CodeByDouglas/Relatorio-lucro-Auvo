@@ -10,7 +10,9 @@ from .dados_calculados import (
     Faturamento_produtos, 
     Faturamento_servicos, 
     Lucro_produtos, 
-    Lucro_servicos
+    Lucro_servicos,
+    Custo_produtos,
+    Custo_servicos
 )
 
 __all__ = [
@@ -25,5 +27,7 @@ __all__ = [
     'Faturamento_produtos', 
     'Faturamento_servicos', 
     'Lucro_produtos', 
-    'Lucro_servicos'
+    'Lucro_servicos',
+    'Custo_produtos',
+    'Custo_servicos'
 ]

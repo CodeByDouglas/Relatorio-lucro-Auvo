@@ -5,7 +5,9 @@ from app.models.dados_calculados import (
     Faturamento_produtos, 
     Faturamento_servicos, 
     Lucro_produtos, 
-    Lucro_servicos
+    Lucro_servicos,
+    Custo_produtos,
+    Custo_servicos
 )
 from sqlalchemy.exc import IntegrityError
 import logging
@@ -117,6 +119,34 @@ def salvar_ou_atualizar_dados_calculados(user_id, dados_calculados):
                     porcentagem_lucro_total=dados_calculados["Lucro_servicos"]["porcentagem_lucro_total"]
                 )
                 db.session.add(novo_lucro_servico)
+        
+        # Custo_produtos
+        if "Custo_produtos" in dados_calculados:
+            custo_produtos = Custo_produtos.query.filter_by(user_id=user_id).first()
+            if custo_produtos:
+                custo_produtos.valor = dados_calculados["Custo_produtos"]["valor"]
+                custo_produtos.porcentagem_faturamento_total = dados_calculados["Custo_produtos"]["porcentagem_faturamento_total"]
+            else:
+                novo_custo_produtos = Custo_produtos(
+                    user_id=user_id,
+                    valor=dados_calculados["Custo_produtos"]["valor"],
+                    porcentagem_faturamento_total=dados_calculados["Custo_produtos"]["porcentagem_faturamento_total"]
+                )
+                db.session.add(novo_custo_produtos)
+        
+        # Custo_servicos            
+        if "Custo_servicos" in dados_calculados:
+            custo_servicos = Custo_servicos.query.filter_by(user_id=user_id).first()
+            if custo_servicos:
+                custo_servicos.valor = dados_calculados["Custo_servicos"]["valor"]
+                custo_servicos.porcentagem_faturamento_total = dados_calculados["Custo_servicos"]["porcentagem_faturamento_total"]
+            else:   
+                novo_custo_servicos = Custo_servicos(
+                    user_id=user_id,
+                    valor=dados_calculados["Custo_servicos"]["valor"],
+                    porcentagem_faturamento_total=dados_calculados["Custo_servicos"]["porcentagem_faturamento_total"]
+                )
+                db.session.add(novo_custo_servicos)
         
         logger.debug("Fazendo commit das alterações no banco de dados")
         db.session.commit()

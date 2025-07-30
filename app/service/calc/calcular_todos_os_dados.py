@@ -8,6 +8,8 @@ from .porcentagem_faturamento_servico import calcular_porcentagem_faturamento_se
 from .porcentagem_lucro_produto import calcular_porcentagem_lucro_produto
 from .porcentagem_lucro_servico import calcular_porcentagem_lucro_servico
 from .porcentagem_lucro_faturamento import calcular_porcentagem_lucro_faturamento
+from .porcentagem_custo_faturamento_produto import calcular_porcentagem_custo_faturamento_produto
+from .porcentagem_custo_faturamento_servico import calcular_porcentagem_custo_faturamento_servico
 
 logger = logging.getLogger(__name__)
 
@@ -37,6 +39,8 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
     porc_lucro_produto = calcular_porcentagem_lucro_produto(lucro_produto, lucro_total)
     porc_lucro_servico = calcular_porcentagem_lucro_servico(lucro_servico, lucro_total)
     porc_lucro_faturamento = calcular_porcentagem_lucro_faturamento(lucro_total, faturamento_total)
+    porc_custo_produto = calcular_porcentagem_custo_faturamento_produto(faturamento_produto, custo_produto)
+    porc_custo_servico = calcular_porcentagem_custo_faturamento_servico(faturamento_servico, custo_servico)
     
     dado_calculados = {
         'Faturamento_total': {
@@ -62,6 +66,14 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
         'Lucro_servicos': {
             'valor': lucro_servico,
             'porcentagem_lucro_total': porc_lucro_servico
+        },
+        'Custo_produtos': {
+            'valor': custo_produto,
+            'porcentagem_faturamento_total': porc_custo_produto
+        },
+        'Custo_servicos': {
+            'valor': custo_servico,
+            'porcentagem_faturamento_total': porc_custo_servico
         }
     }
     

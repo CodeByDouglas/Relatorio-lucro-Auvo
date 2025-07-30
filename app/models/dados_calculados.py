@@ -48,3 +48,19 @@ class Lucro_servicos(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     valor = db.Column(db.Float, nullable=False)
     porcentagem_lucro_total = db.Column(db.Float, nullable=False)
+
+class Custo_produtos(db.Model):
+    __tablename__ = 'custo_produtos'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    porcentagem_faturamento_total = db.Column(db.Float, nullable=False)
+
+class Custo_servicos(db.Model):
+    __tablename__ = 'custo_servicos'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    porcentagem_faturamento_total = db.Column(db.Float, nullable=False)
