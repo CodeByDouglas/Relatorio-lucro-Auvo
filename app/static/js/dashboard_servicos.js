@@ -180,6 +180,21 @@ document.addEventListener('DOMContentLoaded', function() {
                         selectTipoTarefa.value = valorAtualTipoTarefa;
                     }
                 }
+                // Carregar colaboradores
+                const selectColaborador = document.getElementById('colaborador');
+                if (selectColaborador) {
+                    const valorAtualColaborador = selectColaborador.value;
+                    selectColaborador.innerHTML = '<option value="">Todos</option>';
+                    dados.colaboradores.forEach(colaborador => {
+                        const opt = document.createElement('option');
+                        opt.value = colaborador["id-colaborador"];
+                        opt.textContent = colaborador["nome-do-colaborador"];
+                        selectColaborador.appendChild(opt);
+                    });
+                    if (valorAtualColaborador) {
+                        selectColaborador.value = valorAtualColaborador;
+                    }
+                }
             }
         } catch (e) {
             // Pode exibir erro se desejar
@@ -275,6 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const dataFinal = document.getElementById('data-final').value;
         const servico = document.getElementById('servico').value;
         const tipoTarefa = document.getElementById('tipo-tarefa').value;
+        const colaborador = document.getElementById('colaborador').value;
         const status = document.getElementById('status').value;
         // Validar datas
         if (new Date(dataFinal) < new Date(dataInicial)) {
@@ -296,7 +312,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     id_tipo_de_tarefa: tipoTarefa || null,
                     start_date: dataInicial,
                     end_date: dataFinal,
-                    status: status
+                    status: status,
+                    id_colaborador: colaborador || null
                 })
             });
             if (response.status === 401) {
@@ -354,7 +371,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         id_tipo_de_tarefa: null,
                         start_date,
                         end_date,
-                        status: "4"  // Todas por padrão
+                        status: "4",  // Todas por padrão
+                        id_colaborador: null
                     })
                 });
                 hideLoading();

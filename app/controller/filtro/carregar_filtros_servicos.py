@@ -4,6 +4,7 @@ from app.controller.login.check_auth import check_auth
 from app.models.user import User
 from app.models.servicos import Servicos
 from app.models.tipos_de_tarefas import Tipos_de_tarefas
+from app.models.colaboradores import Colaboradores
 from app.controller.filtro.carregar_filtros_geral import filtro_bp
 
 @filtro_bp.route('/filtro/carregar_filtros_servicos', methods=['GET'])
@@ -16,24 +17,37 @@ def carregar_filtros_servicos():
             user = User.query.filter_by(api_key=api_key).first()
             user_id = user.id
             
-            # Buscar dados dos produtos do usuário
+            # Buscar dados dos tipos de tarefa do usuário
             tipos_tarefa = Tipos_de_tarefas.query.filter_by(user_id=user_id).first()
            
-            # Buscar dados dos produtos do usuário
+            # Buscar dados dos serviços do usuário
             servicos = Servicos.query.filter_by(user_id=user_id).first()
+            
+            # Buscar dados dos colaboradores do usuário
+            colaboradores = Colaboradores.query.filter_by(user_id=user_id).first()
             
             servicos_data = []
             if servicos and servicos.json_lista_servicos:
                 servicos_data = servicos.json_lista_servicos
                 
-            
             tipos_tarefa_data = []
             if tipos_tarefa and tipos_tarefa.json_lista_tipos_de_tarefas:
                 tipos_tarefa_data = tipos_tarefa.json_lista_tipos_de_tarefas
             
+            colaboradores_data = []
+            if colaboradores and colaboradores.json_lista_colaboradores:
+                # Filtrar apenas os campos necessários (id e nome)
+                colaboradores_data = []
+                for colaborador in colaboradores.json_lista_colaboradores:
+                    colaboradores_data.append({
+                        "id-colaborador": colaborador.get("id-colaborador"),
+                        "nome-do-colaborador": colaborador.get("nome-do-colaborador")
+                    })
+            
             return jsonify({
                 'servicos': servicos_data,
-                'tipos_tarefa': tipos_tarefa_data
+                'tipos_tarefa': tipos_tarefa_data,
+                'colaboradores': colaboradores_data
             }), 200
         else:
             return jsonify({"message": "user não autenticado"}), 401 
@@ -133,6 +147,44 @@ Response do endpoint:
         {
             "id-tipo-de-tarefa": 168396,
             "nome-do-tipo-de-tarefa": "Visita para OrçamentoG"
+        }
+    ],
+    "colaboradores": [
+        {
+            "id-colaborador": "201975",
+            "nome-do-colaborador": "Douglas"
+        },
+        {
+            "id-colaborador": "198544",
+            "nome-do-colaborador": "GABRIELA - TESTE"
+        },
+        {
+            "id-colaborador": "183873",
+            "nome-do-colaborador": "Giovanna Auvo"
+        },
+        {
+            "id-colaborador": "198910",
+            "nome-do-colaborador": "Giovanna Financeiro"
+        },
+        {
+            "id-colaborador": "200644",
+            "nome-do-colaborador": "Giovanna Usuário"
+        },
+        {
+            "id-colaborador": "189998",
+            "nome-do-colaborador": "JOTA JR"
+        },
+        {
+            "id-colaborador": "175745",
+            "nome-do-colaborador": "Silva Adm"
+        },
+        {
+            "id-colaborador": "180453",
+            "nome-do-colaborador": "Silva Gestor"
+        },
+        {
+            "id-colaborador": "191954",
+            "nome-do-colaborador": "Silva Usuário"
         }
     ]
 }

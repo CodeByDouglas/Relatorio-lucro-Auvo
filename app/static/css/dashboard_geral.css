@@ -81,7 +81,7 @@ body, html {
     min-width: 320px;
     height: calc(100vh - 120px);
     margin: 0 auto;
-    padding: 0 32px;
+    padding: 20px 32px 20px 32px;
     box-sizing: border-box;
 }
 .charts-area {
@@ -192,47 +192,48 @@ body, html {
     background: #fff;
     border-radius: 14px;
     box-shadow: 0 2px 16px rgba(112,36,196,0.07);
-    padding: 32px 24px 18px 24px;
+    padding: 16px 16px 12px 16px;
     min-width: 260px;
     max-width: 350px;
     box-sizing: border-box;
     margin-left: 20px;
     display: flex;
     flex-direction: column;
+    align-self: center;
     gap: 18px;
 }
 #filtros-form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
 }
 .filters-title {
     color: #7024c4;
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 18px;
+    margin-bottom: 10px;
     letter-spacing: 1px;
 }
 .filter-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 14px;
+    margin-bottom: 6px;
 }
 .filter-group label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #222;
-    margin-bottom: 4px;
+    margin-bottom: 3px;
     font-weight: 500;
 }
 .filter-group input {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 12px;
+    padding: 6px 10px;
     border: 1.5px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
     outline: none;
     transition: border 0.2s;
     background: #fafbfc;
@@ -244,10 +245,10 @@ body, html {
 .filter-group select {
     width: 100%;
     box-sizing: border-box;
-    padding: 10px 12px;
+    padding: 6px 10px;
     border: 1.5px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
     outline: none;
     transition: border 0.2s;
     background: #fafbfc;
@@ -257,9 +258,9 @@ body, html {
     -moz-appearance: none;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 40px;
+    background-position: right 10px center;
+    background-size: 14px;
+    padding-right: 36px;
 }
 .filter-group select:focus {
     border: 1.5px solid #7024c4;
@@ -270,12 +271,12 @@ body, html {
     background: #7024c4;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    padding: 14px 0;
-    font-size: 1.1rem;
+    border-radius: 6px;
+    padding: 10px 0;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 6px;
     transition: background 0.2s;
     letter-spacing: 1px;
 }

@@ -2,7 +2,7 @@ import requests
 import json
 from urllib.parse import urlencode
 
-def request_tarefas_completa(accessToken, start_date, end_date, type, status):
+def request_tarefas_completa(accessToken, start_date, end_date, type, status, id_colaborador):
     """
     Requisita todas as tarefas da API Auvo dentro de um intervalo de datas com paginação automática.
 
@@ -30,6 +30,9 @@ def request_tarefas_completa(accessToken, start_date, end_date, type, status):
 
         if status is not None:
             param_filter["status"] = status
+
+        if id_colaborador is not None:
+            param_filter["idUserTo"] = id_colaborador
         
 
         base_url = "https://api.auvo.com.br/v2/tasks/"
@@ -37,7 +40,8 @@ def request_tarefas_completa(accessToken, start_date, end_date, type, status):
             "page": current_page,
             "pageSize": 100,
             "paramFilter": json.dumps(param_filter)
-        }
+        } 
+        print(param_filter)
 
         url = f"{base_url}?{urlencode(params)}"
         headers = {

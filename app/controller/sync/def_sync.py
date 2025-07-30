@@ -19,7 +19,7 @@ from app.service.calc.custo_servicos import calcular_custo_servicos
 from app.service.calc.calcular_todos_os_dados import calcular_todos_os_valores
 from app.service.calc.calcular_todos_os_dados_tarefa_individual import calcular_todos_os_dados_tarefa_individual
 
-def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date, status):
+def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date, status, id_colaborador):
     
     # Chama a Api de produtos e atualiza o banco.
     request_produtos = request_produtos_auvo(accessToken)
@@ -74,7 +74,7 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
             return False, "O Serviço filtrado foi excluido do sistema"
     
     #Faz chama a API que busca as tarefas com os filtros aplicados.
-    request_tarefas = request_tarefas_completa(accessToken, start_date, end_date, id_tipo_de_tarefa, status)
+    request_tarefas = request_tarefas_completa(accessToken, start_date, end_date, id_tipo_de_tarefa, status, id_colaborador)
 
     #Verifica se as tarefas foram encontradas.
     if request_tarefas == []:

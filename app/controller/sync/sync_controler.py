@@ -15,6 +15,7 @@ def sync_endpoint():
         start_date = request.json.get('start_date')
         end_date = request.json.get('end_date')
         status = request.json.get('status')
+        id_colaborador = request.json.get('id_colaborador')
         resultado = check_auth(api_key)
         
         if resultado[0] == False:
@@ -25,7 +26,7 @@ def sync_endpoint():
             user = User.query.filter_by(api_key=api_key).first()
             user_id = user.id
             
-            sincronizacao = sync(user_id, resultado[2], id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date, status)
+            sincronizacao = sync(user_id, resultado[2], id_produto, id_servico, id_tipo_de_tarefa, start_date, end_date, status, id_colaborador)
             
             if sincronizacao[0] == True:
                 return jsonify({"message": "Sincronização realizada com sucesso"}), 200
