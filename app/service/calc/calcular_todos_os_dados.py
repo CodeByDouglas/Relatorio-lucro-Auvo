@@ -12,7 +12,7 @@ from .porcentagem_lucro_faturamento import calcular_porcentagem_lucro_faturament
 logger = logging.getLogger(__name__)
 
 
-def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_produto):
+def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_produto, custo_servico):
     """
     Calcula todos os valores financeiros de uma vez
     
@@ -28,7 +28,7 @@ def calcular_todos_os_valores(faturamento_produto, faturamento_servico, custo_pr
     # Cálculos básicos
     faturamento_total = calcular_faturamento_total(faturamento_produto, faturamento_servico)
     lucro_produto = calcular_lucro_produto(faturamento_produto, custo_produto)
-    lucro_servico = calcular_lucro_servico(faturamento_servico)
+    lucro_servico = calcular_lucro_servico(faturamento_servico, custo_servico)
     lucro_total = calcular_lucro_total(lucro_produto, lucro_servico)
     
     # Porcentagens

@@ -21,11 +21,20 @@ def extrair_lista_dados_tarefas(api_responses, filtro_listagem_id_produtos, filt
         {
           "dados_extraitos": [
             {
-              "estrutura-tarefas": {
-                "01": {...},
-                "02": {...},
-                ...
-              },
+              "tarefas": [
+                {
+                  "id-da-tarefa": <int>,
+                  "nome-do-cliente": <string>,
+                  "data-da-tarefa": <string>,
+                  "tipo-da-tarefa": <int>,
+                  "id-do-colaborador": <int>,
+                  "tempo-de-serviço": <string>,
+                  "produtos": [...],
+                  "serviços": [...],
+                  "faturamento-produtos": <float>,
+                  "faturamento-servicos": <float>
+                }
+              ],
               "produtoID": [...],
               "servicoID": [...],
               "faturamento-produtos": <float>,
@@ -66,6 +75,7 @@ def extrair_lista_dados_tarefas(api_responses, filtro_listagem_id_produtos, filt
                 "data-da-tarefa":    tarefa.get("taskDate"),
                 "tipo-da-tarefa":    tarefa.get("taskType"),
                 "id-do-colaborador": tarefa.get("idUserTo"),
+                "tempo-de-serviço":  tarefa.get("duration", ""),
             }
 
             produtos = []
@@ -126,6 +136,7 @@ print(json.dumps(saida, ensure_ascii=False, indent=2))
           "data-da-tarefa": "2025-07-16T13:00:00",
           "tipo-da-tarefa": 182191,
           "id-do-colaborador": 201975,
+          "tempo-de-serviço": "01:30:00",
           "produtos": [
             "9854b8e3-5fa5-11f0-ba85-0a44e9849753",
             "9854b8e3-5fa5-11f0-ba85-0a44e9849753"
@@ -142,6 +153,7 @@ print(json.dumps(saida, ensure_ascii=False, indent=2))
           "data-da-tarefa": "2025-07-16T13:30:00",
           "tipo-da-tarefa": 192651,
           "id-do-colaborador": 198544,
+          "tempo-de-serviço": "02:15:00",
           "produtos": [
             "1f58d4ed-610d-11f0-ba85-0a44e9849753",
             "9854b8e3-5fa5-11f0-ba85-0a44e9849753"
@@ -156,6 +168,7 @@ print(json.dumps(saida, ensure_ascii=False, indent=2))
           "data-da-tarefa": "2025-07-16T19:05:00",
           "tipo-da-tarefa": 182191,
           "id-do-colaborador": 183873,
+          "tempo-de-serviço": "01:45:00",
           "produtos": [],
           "serviços": [
             "b28117c7-626b-4b53-8462-ff04b4af1a14",

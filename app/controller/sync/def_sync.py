@@ -15,6 +15,7 @@ from app.service.salvar_dados_no_banco.salvar_tarefas import salvar_ou_atualizar
 from app.service.salvar_dados_no_banco.salvar_dados_calculados import salvar_ou_atualizar_dados_calculados
 from app.service.salvar_dados_no_banco.salvar_colaboradores import salvar_ou_atualizar_colaboradores
 from app.service.calc.custo_produtos import calcular_custo_produtos
+from app.service.calc.custo_servicos import calcular_custo_servicos
 from app.service.calc.calcular_todos_os_dados import calcular_todos_os_valores
 from app.service.calc.calcular_todos_os_dados_tarefa_individual import calcular_todos_os_dados_tarefa_individual
 
@@ -85,7 +86,7 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         #Separa as tarefas obtidas do restntante do Json.
         tarefas = tarefas_e_dados["dados_extraidos"][0]["tarefas"]
         #Calcula os dados de cada tarefa individual.
-        tarefas =  calcular_todos_os_dados_tarefa_individual(tarefas, produtos)
+        tarefas =  calcular_todos_os_dados_tarefa_individual(tarefas, produtos, colaboradores)
         #Salva as tarefas no banco de dados.
         salvar_ou_atualizar_tarefas(user_id, tarefas)
 
@@ -100,8 +101,11 @@ def sync(user_id, accessToken, id_produto, id_servico, id_tipo_de_tarefa, start_
         #Passa a listagem de ids utilizados do calculo e lista dos ids de produto com seus valores de custo obtendo o custo total dos produtos. 
         custo_dos_produtos = calcular_custo_produtos(litagen_id_produtos_tarefas, produtos)
 
+        #Passa a listagem de ids utilizados do calculo e lista dos ids de serviço com seus valores de custo obtendo o custo total dos serviços. 
+        custo_dos_servicos = calcular_custo_servicos(tarefas, colaboradores, filtro_listagem_id_servicos)
+
         #Chama a função que faz o calculo de todos os dados necessarios e salva eles no banco de dados.
-        dados_calculados = calcular_todos_os_valores(faturamento_produtos, faturamento_servicos, custo_dos_produtos)
+        dados_calculados = calcular_todos_os_valores(faturamento_produtos, faturamento_servicos, custo_dos_produtos, custo_dos_servicos)
         salvar_ou_atualizar_dados_calculados(user_id, dados_calculados)
 
         return True, "Sincronização realizada com sucesso"
