@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             switch(tipo) {
                 case 'faturamento-servico': tooltipFg = 'Faturamento serviço'; break;
                 case 'lucro-servico': tooltipFg = 'Lucro serviço'; tooltipBg = 'Faturamento serviço'; break;
+                case 'custo-servico': tooltipFg = 'Custo serviço'; tooltipBg = 'Faturamento serviço'; break;
             }
             if (fg) {
                 fg.addEventListener('mousemove', (e) => mostrarTooltip(tooltipFg, e));
@@ -211,9 +212,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Inicializar os números das porcentagens com 0%
                 document.getElementById('percent-faturamento-servico').textContent = '0%';
                 document.getElementById('percent-lucro-servico').textContent = '0%';
+                document.getElementById('percent-custo-servico').textContent = '0%';
                 // Faturamento Serviço
                 document.getElementById('valor-faturamento-servico').textContent = `R$ ${Number(data.faturamento_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-faturamento-servico', data.faturamento_servicos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-servico');
+                // Custo Serviço
+                document.getElementById('valor-custo-servico').textContent = `R$ ${Number(data.custo_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                desenharGraficoComTooltipAnimado('grafico-custo-servico', data.custo_servicos.porcentagem_faturamento_total, '#ff6b35', '#eaeaea', 'custo-servico');
                 // Lucro Serviço
                 document.getElementById('valor-lucro-servico').textContent = `R$ ${Number(data.lucro_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-lucro-servico', data.lucro_servicos.porcentagem_lucro_total, '#16b14b', '#eaeaea', 'lucro-servico');

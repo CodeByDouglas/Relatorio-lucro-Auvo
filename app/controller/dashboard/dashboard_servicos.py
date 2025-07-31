@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from flask import Blueprint
 from app.controller.login.check_auth import check_auth
-from app.models.dados_calculados import  Faturamento_servicos, Lucro_servicos
+from app.models.dados_calculados import  Faturamento_servicos, Lucro_servicos, Custo_servicos
 from app.models.user import User
 from app.controller.dashboard.dashboard_geral import dashboard_controller_bp
 
@@ -17,6 +17,7 @@ def dados_dashboard_servicos():
             
             faturamento_servicos = Faturamento_servicos.query.filter_by(user_id=user_id).first()
             lucro_servicos = Lucro_servicos.query.filter_by(user_id=user_id).first()
+            custo_servicos = Custo_servicos.query.filter_by(user_id=user_id).first()
             
             # Calcular a porcentagem do lucro em relação ao faturamento
             porcentagem_lucro = 0
@@ -32,6 +33,10 @@ def dados_dashboard_servicos():
                     "valor": lucro_servicos.valor,
                     "porcentagem_lucro_total": porcentagem_lucro
                 },
+                "custo_servicos": {
+                    "valor": custo_servicos.valor,
+                    "porcentagem_faturamento_total": custo_servicos.porcentagem_faturamento_total
+                }
             }), 200
         
         else:
