@@ -16,7 +16,10 @@
             <button class="nav-btn" onclick="window.location.href='/dashboard_produtos'">PRODUTO</button>
             <button class="nav-btn active">SERVIÇO</button>
         </nav>
-        <button class="export-btn">EXPORTAR EXCEL</button>
+        <div class="header-actions">
+            <button class="export-btn">EXPORTAR EXCEL</button>
+            <button class="help-btn" id="btn-ajuda">?</button>
+        </div>
     </header>
     <div class="dashboard-content">
         <section class="charts-area">
@@ -121,6 +124,35 @@
             </div>
         </div>
     </div>
+    
+    <!-- Modal de Ajuda -->
+    <div id="modal-ajuda" class="modal-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Glossário de Métricas</h2>
+                <button class="modal-close" id="btn-fechar-ajuda">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ajuda-content">
+                    <div class="ajuda-item">
+                        <h3>Faturamento de serviços</h3>
+                        <p>O faturamento de serviços é a soma do valor cobrado de cada serviço nas tarefas filtradas.</p>
+                    </div>
+                    
+                    <div class="ajuda-item">
+                        <h3>Custo de serviços</h3>
+                        <p>O custo de serviços é calculado multiplicando-se o tempo de execução da tarefa pelo valor da hora do colaborador responsável. Se não houver valor-hora ou tempo registrado, considera-se custo zero.</p>
+                    </div>
+                    
+                    <div class="ajuda-item">
+                        <h3>Lucro de serviços</h3>
+                        <p>O lucro de serviços é a diferença entre o valor de venda e o custo de mão de obra de cada serviço. Se não houver valor-hora ou tempo registrado, todo o valor de venda será considerado lucro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="/static/js/dashboard_servicos.js"></script>
 </body>
 </html>

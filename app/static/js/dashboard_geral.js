@@ -330,6 +330,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('btn-detalhes').addEventListener('click', carregarDetalhes);
     document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
     
+    // Event listeners para o modal de ajuda
+    document.getElementById('btn-ajuda').addEventListener('click', abrirModalAjuda);
+    document.getElementById('btn-fechar-ajuda').addEventListener('click', fecharModalAjuda);
+    
     // Event listeners para navegação
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.addEventListener('click', function() {
@@ -346,6 +350,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('modal-detalhes').addEventListener('click', function(e) {
         if (e.target === this) {
             fecharModal();
+        }
+    });
+    
+    document.getElementById('modal-ajuda').addEventListener('click', function(e) {
+        if (e.target === this) {
+            fecharModalAjuda();
         }
     });
     
@@ -399,8 +409,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('modal-detalhes').classList.add('modal-hidden');
     }
     
-    // Garantir que o modal comece fechado
+    function abrirModalAjuda() {
+        document.getElementById('modal-ajuda').classList.remove('modal-hidden');
+    }
+    
+    function fecharModalAjuda() {
+        document.getElementById('modal-ajuda').classList.add('modal-hidden');
+    }
+    
+    // Garantir que os modais comecem fechados
     fecharModal();
+    fecharModalAjuda();
     
     Promise.all([
         carregarTiposTarefa(),

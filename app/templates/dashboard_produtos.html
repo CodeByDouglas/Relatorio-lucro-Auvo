@@ -16,7 +16,10 @@
             <button class="nav-btn active">PRODUTO</button>
             <button class="nav-btn" onclick="window.location.href='/dashboard_servicos'">SERVIÇO</button>
         </nav>
-        <button class="export-btn">EXPORTAR EXCEL</button>
+        <div class="header-actions">
+            <button class="export-btn">EXPORTAR EXCEL</button>
+            <button class="help-btn" id="btn-ajuda">?</button>
+        </div>
     </header>
     <div class="dashboard-content">
         <section class="charts-area">
@@ -113,6 +116,34 @@
                         <!-- Dados serão inseridos dinamicamente -->
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Ajuda -->
+    <div id="modal-ajuda" class="modal-hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Glossário de Métricas</h2>
+                <button class="modal-close" id="btn-fechar-ajuda">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="ajuda-content">
+                    <div class="ajuda-item">
+                        <h3>Faturamento de produtos</h3>
+                        <p>O faturamento de produtos corresponde à soma do valor de venda de cada produto presente nas tarefas filtradas. Produtos excluídos do sistema não são contabilizados.</p>
+                    </div>
+                    
+                    <div class="ajuda-item">
+                        <h3>Custo de produtos</h3>
+                        <p>O custo de produtos é a soma do custo unitário cadastrado de cada produto presente nas tarefas filtradas. Se um produto não tiver custo unitário cadastrado, considera-se custo zero.</p>
+                    </div>
+                    
+                    <div class="ajuda-item">
+                        <h3>Lucro de produtos</h3>
+                        <p>O lucro de produtos é a diferença entre o valor de venda e o custo unitário de cada produto nas tarefas filtradas. Caso não haja custo unitário cadastrado, todo o valor de venda será considerado lucro.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

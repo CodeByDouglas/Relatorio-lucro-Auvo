@@ -77,6 +77,36 @@ body, html {
     background: #128a39;
 }
 
+/* Botão de Ajuda */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.help-btn {
+    background: #fff;
+    color: #7024c4;
+    border: 2px solid #7024c4;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(112,36,196,0.1);
+}
+
+.help-btn:hover {
+    background: #7024c4;
+    color: #fff;
+    transform: scale(1.1);
+}
+
 .dashboard-content {
     display: flex;
     flex-direction: row;
@@ -338,7 +368,7 @@ body, html {
 }
 
 /* Modal */
-#modal-detalhes {
+#modal-detalhes, #modal-ajuda {
     position: fixed;
     top: 0;
     left: 0;
@@ -404,6 +434,40 @@ body, html {
     padding: 24px;
     max-height: 60vh;
     overflow-y: auto;
+}
+
+/* Estilos para o modal de ajuda */
+.ajuda-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.ajuda-item {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.ajuda-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.ajuda-item h3 {
+    color: #7024c4;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    letter-spacing: 0.5px;
+}
+
+.ajuda-item p {
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    text-align: justify;
 }
 
 /* Tabela de Tarefas */
@@ -593,6 +657,25 @@ body, html {
         gap: 8px;
         padding: 8px 2vw 0 2vw;
     }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        margin: 20px;
+    }
+    
+    .modal-body {
+        padding: 16px;
+        max-height: 70vh;
+    }
+    
+    .ajuda-item h3 {
+        font-size: 1.1rem;
+    }
+    
+    .ajuda-item p {
+        font-size: 0.9rem;
+    }
     .dashboard-content {
         flex-direction: column;
         align-items: stretch;
@@ -734,6 +817,14 @@ body, html {
         padding: 0 16px;
         height: 40px;
         line-height: 40px;
+    }
+    .header-actions {
+        gap: 8px;
+    }
+    .help-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
     }
     .export-btn {
         font-size: 0.8rem;

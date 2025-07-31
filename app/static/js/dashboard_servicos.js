@@ -233,9 +233,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Event listeners para o modal de detalhes
     document.getElementById('btn-detalhes').addEventListener('click', carregarDetalhes);
     document.getElementById('btn-fechar-modal').addEventListener('click', fecharModal);
+    
+    // Event listeners para o modal de ajuda
+    document.getElementById('btn-ajuda').addEventListener('click', abrirModalAjuda);
+    document.getElementById('btn-fechar-ajuda').addEventListener('click', fecharModalAjuda);
     document.getElementById('modal-detalhes').addEventListener('click', function(e) {
         if (e.target === this) {
             fecharModal();
+        }
+    });
+    
+    document.getElementById('modal-ajuda').addEventListener('click', function(e) {
+        if (e.target === this) {
+            fecharModalAjuda();
         }
     });
 
@@ -285,6 +295,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function fecharModal() {
         document.getElementById('modal-detalhes').classList.add('modal-hidden');
+    }
+    
+    function abrirModalAjuda() {
+        document.getElementById('modal-ajuda').classList.remove('modal-hidden');
+    }
+    
+    function fecharModalAjuda() {
+        document.getElementById('modal-ajuda').classList.add('modal-hidden');
     }
 
     // Event listener para o formulário de filtros
@@ -406,6 +424,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Botão SERVIÇO: não faz nada (ativo)
 
     fecharModal();
+    fecharModalAjuda();
     
     Promise.all([
         carregarFiltros(),
