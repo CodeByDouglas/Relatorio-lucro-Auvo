@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from flask import Blueprint
 from app.controller.login.check_auth import check_auth
-from app.models.dados_calculados import Faturamento_total, Lucro_total, Faturamento_produtos, Faturamento_servicos, Lucro_produtos, Lucro_servicos
+from app.models.dados_calculados import Faturamento_total, Lucro_total, Faturamento_produtos, Faturamento_servicos, Lucro_produtos, Lucro_servicos, Custo_total, Custo_produtos, Custo_servicos
 from app.models.user import User
 
 dashboard_controller_bp = Blueprint('dashboard_controller', __name__, url_prefix='/dados')
@@ -22,6 +22,9 @@ def dados_dashboard_geral():
             faturamento_servicos = Faturamento_servicos.query.filter_by(user_id=user_id).first()
             lucro_produtos = Lucro_produtos.query.filter_by(user_id=user_id).first()
             lucro_servicos = Lucro_servicos.query.filter_by(user_id=user_id).first()
+            custo_total = Custo_total.query.filter_by(user_id=user_id).first()
+            custo_produtos = Custo_produtos.query.filter_by(user_id=user_id).first()
+            custo_servicos = Custo_servicos.query.filter_by(user_id=user_id).first()
             
             return jsonify({
                 "faturamento_total": {
@@ -47,6 +50,18 @@ def dados_dashboard_geral():
                 "lucro_servicos": {
                     "valor": lucro_servicos.valor,
                     "porcentagem_lucro_total": lucro_servicos.porcentagem_lucro_total
+                },
+                "custo_total": {
+                    "valor": custo_total.valor,
+                    "porcentagem_faturamento_total": custo_total.porcentagem_faturamento_total
+                },
+                "custo_produtos": {
+                    "valor": custo_produtos.valor,
+                    "porcentagem_faturamento_total": custo_produtos.porcentagem_faturamento_total
+                },
+                "custo_servicos": {
+                    "valor": custo_servicos.valor,
+                    "porcentagem_faturamento_total": custo_servicos.porcentagem_faturamento_total
                 }
             }), 200
         

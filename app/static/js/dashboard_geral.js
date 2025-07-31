@@ -67,6 +67,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 tooltipFg = 'Faturamento serviços';
                 tooltipBg = 'Faturamento total';
                 break;
+            case 'custo-total':
+                tooltipFg = 'Custo total';
+                tooltipBg = 'Faturamento total';
+                break;
+            case 'custo-produto':
+                tooltipFg = 'Custo produto';
+                tooltipBg = 'Faturamento produto';
+                break;
+            case 'custo-servico':
+                tooltipFg = 'Custo serviço';
+                tooltipBg = 'Faturamento serviço';
+                break;
             case 'lucro-total':
                 tooltipFg = 'Lucro total';
                 tooltipBg = 'Faturamento total';
@@ -118,6 +130,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'faturamento-total': tooltipFg = 'Faturamento total'; break;
                 case 'faturamento-produto': tooltipFg = 'Faturamento produtos'; tooltipBg = 'Faturamento total'; break;
                 case 'faturamento-servico': tooltipFg = 'Faturamento serviços'; tooltipBg = 'Faturamento total'; break;
+                case 'custo-total': tooltipFg = 'Custo total'; tooltipBg = 'Faturamento total'; break;
+                case 'custo-produto': tooltipFg = 'Custo produto'; tooltipBg = 'Faturamento produto'; break;
+                case 'custo-servico': tooltipFg = 'Custo serviço'; tooltipBg = 'Faturamento serviço'; break;
                 case 'lucro-total': tooltipFg = 'Lucro total'; tooltipBg = 'Faturamento total'; break;
                 case 'lucro-produto': tooltipFg = 'Lucro produto'; tooltipBg = 'Lucro total'; break;
                 case 'lucro-servico': tooltipFg = 'Lucro serviço'; tooltipBg = 'Lucro total'; break;
@@ -206,6 +221,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('percent-faturamento-total').textContent = '0%';
                 document.getElementById('percent-faturamento-produto').textContent = '0%';
                 document.getElementById('percent-faturamento-servico').textContent = '0%';
+                document.getElementById('percent-custo-total').textContent = '0%';
+                document.getElementById('percent-custo-produto').textContent = '0%';
+                document.getElementById('percent-custo-servico').textContent = '0%';
                 document.getElementById('percent-lucro-total').textContent = '0%';
                 document.getElementById('percent-lucro-produto').textContent = '0%';
                 document.getElementById('percent-lucro-servico').textContent = '0%';
@@ -219,6 +237,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Faturamento Serviço
                 document.getElementById('valor-faturamento-servico').textContent = `R$ ${Number(data.faturamento_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-faturamento-servico', data.faturamento_servicos.porcentagem_faturamento_total, '#7024c4', '#eaeaea', 'faturamento-servico');
+                // Custo Total
+                document.getElementById('valor-custo-total').textContent = `R$ ${Number(data.custo_total.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                desenharGraficoComTooltipAnimado('grafico-custo-total', data.custo_total.porcentagem_faturamento_total, '#ff6b35', '#eaeaea', 'custo-total');
+                // Custo Produto
+                document.getElementById('valor-custo-produto').textContent = `R$ ${Number(data.custo_produtos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                desenharGraficoComTooltipAnimado('grafico-custo-produto', data.custo_produtos.porcentagem_faturamento_total, '#ff6b35', '#eaeaea', 'custo-produto');
+                // Custo Serviço
+                document.getElementById('valor-custo-servico').textContent = `R$ ${Number(data.custo_servicos.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                desenharGraficoComTooltipAnimado('grafico-custo-servico', data.custo_servicos.porcentagem_faturamento_total, '#ff6b35', '#eaeaea', 'custo-servico');
                 // Lucro Total
                 document.getElementById('valor-lucro-total').textContent = `R$ ${Number(data.lucro_total.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 desenharGraficoComTooltipAnimado('grafico-lucro-total', data.lucro_total.porcentagem_faturamento_total, '#16b14b', '#eaeaea', 'lucro-total');
