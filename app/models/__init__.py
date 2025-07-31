@@ -12,7 +12,8 @@ from .dados_calculados import (
     Lucro_produtos, 
     Lucro_servicos,
     Custo_produtos,
-    Custo_servicos
+    Custo_servicos,
+    Custo_total
 )
 
 __all__ = [
@@ -29,5 +30,6 @@ __all__ = [
     'Lucro_produtos', 
     'Lucro_servicos',
     'Custo_produtos',
-    'Custo_servicos'
+    'Custo_servicos',
+    'Custo_total'
 ]

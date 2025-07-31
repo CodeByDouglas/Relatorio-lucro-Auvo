@@ -64,3 +64,11 @@ class Custo_servicos(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     valor = db.Column(db.Float, nullable=False)
     porcentagem_faturamento_total = db.Column(db.Float, nullable=False)
+
+class Custo_total(db.Model):
+    __tablename__ = 'custo_total'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    valor = db.Column(db.Float, nullable=False)
+    porcentagem_faturamento_total = db.Column(db.Float, nullable=False)

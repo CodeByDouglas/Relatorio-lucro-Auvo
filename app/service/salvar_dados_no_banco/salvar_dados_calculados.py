@@ -7,7 +7,8 @@ from app.models.dados_calculados import (
     Lucro_produtos, 
     Lucro_servicos,
     Custo_produtos,
-    Custo_servicos
+    Custo_servicos,
+    Custo_total
 )
 from sqlalchemy.exc import IntegrityError
 import logging
@@ -148,6 +149,20 @@ def salvar_ou_atualizar_dados_calculados(user_id, dados_calculados):
                 )
                 db.session.add(novo_custo_servicos)
         
+        # Custo_total
+        if "Custo_total" in dados_calculados:
+            custo_total = Custo_total.query.filter_by(user_id=user_id).first()
+            if custo_total:
+                custo_total.valor = dados_calculados["Custo_total"]["valor"]
+                custo_total.porcentagem_faturamento_total = dados_calculados["Custo_total"]["porcentagem_faturamento_total"]    
+            else:
+                novo_custo_total = Custo_total(
+                    user_id=user_id,
+                    valor=dados_calculados["Custo_total"]["valor"],
+                    porcentagem_faturamento_total=dados_calculados["Custo_total"]["porcentagem_faturamento_total"]
+                )
+                db.session.add(novo_custo_total)
+                
         logger.debug("Fazendo commit das alterações no banco de dados")
         db.session.commit()
         logger.info(f"Dados calculados salvos/atualizados com sucesso para usuário {user_id}")
